@@ -1059,11 +1059,14 @@ final class SteadyViewController: UIViewController, WKNavigationDelegate, WKUIDe
         // native frame is identical to the page that was just reloaded.
         lastViewportFullHeight = -1
         requestViewport()
+        #if DEBUG
+        // Simulator diagnostics only: a launch environment script, never in Release.
         if let d = ProcessInfo.processInfo.environment["STEADY_DRIVE"] {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
                 self?.webView?.evaluateJavaScript(d)
             }
         }
+        #endif
     }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         if (error as NSError).code != NSURLErrorCancelled { showLaunchError() } else { hideLoading() }

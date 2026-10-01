@@ -290,6 +290,23 @@ final class BurdenAskTests: XCTestCase {
         }
     }
 
+    func testBookNamesThatAreEverydayWordsOnlyCountAsReferencesWithAReadingCue() {
+        for output in ["Your job 3 days a week leaves little room, so protect one evening.",
+                       "Mark 5 items as done and leave the rest.", "Call John 2 hours before the meeting.",
+                       "Acts 2 and 3 of the play are the longest.", "Keep numbers 1 to 5 on the first page.",
+                       "Your ex 2 years later still affects how you trust people."] {
+            XCTAssertNotNil(BurdenAskReply.validatedText(output), output)
+            XCTAssertNotNil(BurdenOrganisedReply.validatedText(output), output)
+        }
+        for output in ["Read Mark 5 tonight.", "In Mark 4, a storm is calmed.", "Turn to Job 38 for this.",
+                       "See 1 John 4 on fear.", "2 Tim 3 speaks to this.", "From Luke 15, the father runs.",
+                       "Psalm 23 fits here.", "Try Romans 8.", "1 Samuel 17 is the story of David.",
+                       "Second Peter 1 lists virtues.", "Revelation 21 describes a new creation."] {
+            XCTAssertNil(BurdenAskReply.validatedText(output), output)
+            XCTAssertNil(BurdenOrganisedReply.validatedText(output), output)
+        }
+    }
+
     func testDetailedRequestsHaveRoomToFinishWhileShortRepliesRemainTheDefault() {
         func tokens(_ text: String) -> Int {
             BurdenAskRequest(payload: ["requestId": "ask-detail:1", "text": text, "history": []])!.maximumResponseTokens

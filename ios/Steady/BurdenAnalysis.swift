@@ -181,6 +181,26 @@ enum BurdenScriptureBoundary {
         ]
         return prohibited.contains { text.range(of: $0, options: [.regularExpression, .caseInsensitive]) != nil }
     }
+
+    /// A book name followed by a bare number ("Psalm 23", "1 Cor. 13"). Some
+    /// book names are also everyday words or first names ("your job 3 days a
+    /// week", "mark 5 items", "call John 2 hours before"), so those count only
+    /// with a reading cue ("read Mark 5") or a numbered-book prefix ("1 John 4").
+    /// Chapter:verse forms are caught by `containsGeneratedScripture` regardless.
+    static func containsBareReference(_ text: String) -> Bool {
+        let text = normalized(text)
+        let distinct = #"(?:gen(?:esis)?|exod(?:us)?|lev(?:iticus)?|deut(?:eronomy)?|chr(?:on(?:icles)?)?|neh(?:emiah)?|ps(?:alms?)?|prov(?:erbs)?|eccl(?:esiastes)?|song of (?:solomon|songs)|isa(?:iah)?|jer(?:emiah)?|lamentations|ezek(?:iel)?|obad(?:iah)?|hab(?:akkuk)?|zeph(?:aniah)?|hag(?:gai)?|zech(?:ariah)?|rom(?:ans)?|cor(?:inthians)?|gal(?:atians)?|eph(?:esians)?|philippians|colossians|thess?(?:alonians)?|heb(?:rews)?|philem(?:on)?|phlm|revelation)"#
+        let everyday = #"(?:ex|num(?:bers)?|josh(?:ua)?|judg(?:es)?|ruth|sam(?:uel)?|k(?:in)?gs|ezra|esth(?:er)?|job|lam|dan(?:iel)?|hos(?:ea)?|joel|amos|jonah|mic(?:ah)?|nah(?:um)?|mal(?:achi)?|matt?(?:hew)?|mk|mrk|mark|lk|luk|luke|jn|jhn|john|acts|phil|col|tim(?:othy)?|titus|jas|james|pet(?:er)?|jude|rev)"#
+        let numbered = #"(?:sam(?:uel)?|k(?:in)?gs|jn|jhn|john|tim(?:othy)?|pet(?:er)?)"#
+        let ordinal = #"(?:[1-3]|first|second|third)\s*"#
+        let cue = #"(?:read|see|try|study|open|look at|turn to|according to|in|from|book of)\s+"#
+        let patterns = [
+            #"\b(?:"# + ordinal + #")?"# + distinct + #"\.?\s+\d"#,
+            #"\b"# + cue + #"(?:"# + ordinal + #")?"# + everyday + #"\.?\s+\d"#,
+            #"\b"# + ordinal + numbered + #"\.?\s+\d"#
+        ]
+        return patterns.contains { text.range(of: $0, options: [.regularExpression, .caseInsensitive]) != nil }
+    }
 }
 
 struct BurdenAskReply: Equatable, Sendable {
@@ -198,12 +218,12 @@ struct BurdenAskReply: Equatable, Sendable {
         let text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty, text.utf16.count <= 3000,
               text.split(whereSeparator: { $0.isWhitespace }).count <= 500,
-              !BurdenScriptureBoundary.containsGeneratedScripture(text) else { return nil }
+              !BurdenScriptureBoundary.containsGeneratedScripture(text),
+              !BurdenScriptureBoundary.containsBareReference(text) else { return nil }
         // These checks catch common boundary violations, not every factual
         // error. General answers must never be presented as verified Scripture.
         let prohibited = [
             #"<\/?[A-Za-z][^>]*>|https?://"#,
-            #"\b(?:[1-3]\s*)?(?:gen(?:esis)?|ex(?:od(?:us)?)?|lev(?:iticus)?|num(?:bers)?|deut(?:eronomy)?|josh(?:ua)?|judg(?:es)?|ruth|sam(?:uel)?|k(?:in)?gs|chr(?:on(?:icles)?)?|ezra|neh(?:emiah)?|esth(?:er)?|job|ps(?:alms?)?|prov(?:erbs)?|eccl(?:esiastes)?|song(?: of (?:solomon|songs))?|isa(?:iah)?|jer(?:emiah)?|lam(?:entations)?|ezek(?:iel)?|dan(?:iel)?|hos(?:ea)?|joel|amos|obad(?:iah)?|jonah|mic(?:ah)?|nah(?:um)?|hab(?:akkuk)?|zeph(?:aniah)?|hag(?:gai)?|zech(?:ariah)?|mal(?:achi)?|matt?(?:hew)?|mk|mark|lk|luke|jn|john|acts|rom(?:ans)?|cor(?:inthians)?|gal(?:atians)?|eph(?:esians)?|phil(?:ippians)?|col(?:ossians)?|thess?(?:alonians)?|tim(?:othy)?|titus|philem(?:on)?|heb(?:rews)?|jas|james|pet(?:er)?|jude|rev(?:elation)?)\.?\s+\d"#,
             #"\b(?:scripture|the bible|(?:god|jesus|the lord|the holy spirit))\s+(?:says?|said|tells? us|teaches?|promises?|is telling you|wants you to|told me)\b"#,
             #"\b(?:i|i've|i have)\s+(?:(?:just|already)\s+)?(?:searched|browsed|looked up|checked online|checked the web|verified online|accessed your|read your files)\b"#
         ]
@@ -333,12 +353,12 @@ struct BurdenOrganisedReply: Equatable, Sendable {
         let text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty, text.utf16.count <= 700,
               text.split(whereSeparator: { $0.isWhitespace }).count <= 100,
-              !BurdenScriptureBoundary.containsGeneratedScripture(text) else { return nil }
+              !BurdenScriptureBoundary.containsGeneratedScripture(text),
+              !BurdenScriptureBoundary.containsBareReference(text) else { return nil }
         // These are conservative rejection checks, not a proof of factual
         // faithfulness. Any rejected response leaves the original prose intact.
         let prohibited = [
             #"[\"“”<>`]|https?://|\b\d{1,3}:\d{1,3}\b"#,
-            #"\b(?:genesis|exodus|leviticus|numbers|deuteronomy|joshua|judges|ruth|samuel|kings|chronicles|ezra|nehemiah|esther|job|psalms?|proverbs|ecclesiastes|song of (?:solomon|songs)|isaiah|jeremiah|lamentations|ezekiel|daniel|hosea|joel|amos|obadiah|jonah|micah|nahum|habakkuk|zephaniah|haggai|zechariah|malachi|matthew|mark|luke|john|acts|romans|corinthians|galatians|ephesians|philippians|colossians|thessalonians|timothy|titus|philemon|hebrews|james|peter|jude|revelation)\s+\d"#,
             #"\b(?:god|jesus|the lord|the holy spirit)\s+(?:told me|says to you|is telling you|promises you|has promised you|wants you to)\b"#,
             #"^\s*(?:as an ai\b|i (?:cannot|can't|am unable to) (?:help|assist|fulfil|fulfill|provide|comply)\b)"#
         ]
