@@ -1,0 +1,33 @@
+/* Focused screens reuse the original daily panels. */
+.main-shell main{display:block}
+.focused-panel[hidden],#home-hub[hidden],.step-change[hidden]{display:none!important}
+.focused-panel{width:100%;margin:0!important;min-height:0}
+.screen-header~.focused-panel{max-width:none}
+.main-shell .direction-card{display:flex}
+.focused-panel .card-corner,.focused-panel .direction-intention{display:none}
+.focused-panel .field-footer:empty{display:none}
+.focused-panel .section-icon{width:28px;height:28px;border-radius:8px;color:var(--ui-icon)}
+.focused-panel .card-heading .eyebrow{font-size:10px;letter-spacing:.12em}
+.focused-panel h3{font-size:var(--card-title-size);line-height:1.35;letter-spacing:-.5px}
+.focused-panel .card-description{font-size:14px;margin-top:8px}
+.focused-panel .need-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:20px 0 0}
+.focused-panel .need-grid button{min-height:60px;justify-content:flex-start;padding:12px 14px;border-radius:12px;font-size:14px;box-shadow:none}
+.focused-panel .need-grid button span{display:grid;place-items:center;flex:0 0 24px}
+.focused-panel .button.primary{min-height:48px;border-radius:12px;font-size:14px;padding:12px 18px}
+.focused-panel .recommendation{padding:0;min-height:0}
+.focused-panel .recommendation h3{font-size:var(--card-title-size,24px);max-width:28ch;margin:12px 0}
+.focused-panel .recommendation p{max-width:58ch;line-height:1.7}
+.focused-panel .task{min-height:56px;gap:12px}
+.focused-panel .task label{font-size:14px;padding-block:14px;min-width:0;overflow-wrap:anywhere}
+.focused-panel .task input{width:24px;height:24px;border-radius:50%;flex-shrink:0}
+.focused-panel .reflection-choices{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:20px;gap:10px}
+.focused-panel .reflection-choices button{min-width:0;min-height:58px;border-radius:12px;font-size:14px;padding:12px 24px 12px 14px}
+.focused-panel .optional-write{margin-top:20px;padding-top:8px}
+.focused-panel textarea{line-height:1.6;border-radius:12px}
+.focused-panel #mind-status,.reflection-bottom{min-height:18px}
+.step-change{display:inline-flex;align-items:center;min-height:44px;width:fit-content;font-size:13px;margin-top:16px;color:var(--muted)}
+.step-change:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hub-heading h1:focus{outline:none}
+@media(max-width:380px){.focused-panel .need-grid{gap:8px}.focused-panel .need-grid button{padding:10px;font-size:13px}}
+@media(max-width:500px){html[data-size=large] .need-grid,html[data-font=dyslexic] .need-grid,html[data-size=large] .reflection-choices,html[data-font=dyslexic] .reflection-choices{grid-template-columns:1fr}}
+html[data-font=dyslexic] .focused-panel :is(h2,h3){font-family:var(--font);letter-spacing:normal;line-height:1.6}

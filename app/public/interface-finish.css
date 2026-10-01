@@ -1,0 +1,185 @@
+/* The response card has one clear reading action, a quiet listening action,
+   and a separate entry-removal action. Keep the same order at narrow widths. */
+:root{--header-control-ink:var(--ink)}
+/* A quiet, high-contrast badge marks the animal switch without covering the portrait. */
+:root body .chat-welcome .wheel-open{color:#fff;background:transparent}
+:root body .chat-welcome .wheel-open::before{inset:8px;border:1px solid rgba(255,255,255,.2);background:#505963;box-shadow:0 2px 8px rgba(18,24,30,.17)}
+:root body .chat-welcome .wheel-open svg{width:16px;height:16px;stroke-width:1.9}
+:root[data-theme=dark] body .chat-welcome .wheel-open::before{border-color:rgba(255,255,255,.26);background:#555e68;box-shadow:0 2px 10px rgba(0,0,0,.33)}
+:root body .chat-welcome .wheel-open:active{opacity:1;transform:scale(.94)}
+
+/* Header navigation floats over the page in a compact, theme-matched glass
+   surface. The native tab bar is owned by iOS and remains unchanged. */
+:root body .sidebar :is(.theme-toggle,.settings-link),
+:root body .screen-header :is(.theme-toggle,.settings-link){
+  border:1px solid var(--glass-edge);
+  border-radius:14px;
+  background:var(--glass);
+  color:var(--ink);
+  box-shadow:var(--glass-shadow),inset 0 1px 0 rgba(255,255,255,.12);
+  backdrop-filter:blur(18px) saturate(1.25);
+  -webkit-backdrop-filter:blur(18px) saturate(1.25);
+}
+html[data-native-header=true] body .sidebar :is(.theme-toggle,.settings-link),
+html[data-native-header=true] body .screen-header :is(.theme-toggle,.settings-link){display:none!important}
+@media(max-width:650px){
+  html[data-native-back=true] body.settings-open .settings-page{padding-top:70px}
+  html[data-native-back=true] body.settings-open .settings-heading{padding-left:0;justify-content:center}
+  html[data-native-back=true] body.settings-open .settings-heading h1{text-align:center}
+  html[data-native-app=ios] body.settings-open .settings-heading{position:absolute;width:1px;height:1px;min-height:0;margin:0;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+}
+:root body:not(.chat-screen) .screen-back,
+:root body .settings-back{
+  border:1px solid var(--glass-edge);
+  border-radius:22px;
+  background:var(--glass);
+  color:var(--ink);
+  box-shadow:var(--glass-shadow),inset 0 1px 0 rgba(255,255,255,.12);
+  backdrop-filter:blur(18px) saturate(1.25);
+  -webkit-backdrop-filter:blur(18px) saturate(1.25);
+}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  :root body .sidebar :is(.theme-toggle,.settings-link),
+  :root body .screen-header :is(.theme-toggle,.settings-link),
+  :root body:not(.chat-screen) .screen-back,
+  :root body .settings-back{background:var(--surface)}
+}
+@media(prefers-reduced-transparency:reduce){
+  :root body .sidebar :is(.theme-toggle,.settings-link),
+  :root body .screen-header :is(.theme-toggle,.settings-link),
+  :root body:not(.chat-screen) .screen-back,
+  :root body .settings-back{background:var(--surface);backdrop-filter:none;-webkit-backdrop-filter:none}
+}
+
+.moment-preview .moment-actions{
+  align-items:center;
+  gap:6px 8px;
+  margin-top:16px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+}
+.moment-preview .moment-actions .text-link{
+  min-height:44px;
+  padding:8px 11px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:600;
+  line-height:1.4;
+  text-decoration:none;
+  transition:background-color var(--motion-fast) ease,opacity var(--motion-fast) ease;
+}
+.moment-preview .moment-action-read{
+  order:0;
+  background:var(--brand-soft);
+  color:var(--brand-ink);
+}
+.moment-preview .moment-action-listen{
+  order:1;
+  background:var(--surface);
+  color:var(--ink);
+}
+.moment-preview .moment-action-forget{
+  order:2;
+  margin-left:auto!important;
+  padding-inline:8px!important;
+  color:var(--muted);
+  font-weight:500!important;
+}
+.moment-preview .moment-actions .text-link:active{opacity:.72}
+@media(max-width:380px){
+  .moment-preview .moment-action-forget{margin-left:0!important}
+}
+
+/* Reflect keeps the generous reading space but removes the empty bands
+   between its choices and the closing action. */
+@media(max-width:650px){
+  body:not(.chat-screen) .reflection-card .reflection-choices{margin-top:10px;margin-bottom:6px}
+  :root body:not(.chat-screen) .reflection-card .reflection-choices button{
+    min-height:50px;
+    padding-block:10px;
+  }
+  .reflection-card .optional-write{margin-top:8px;padding-top:6px}
+  .reflection-card .finish-day{margin-top:12px}
+  .reflection-card .progress-link{margin-top:12px}
+}
+
+/* Settings controls use the same soft surface, edge and radius as the other
+   choices in Steady. The chevron remains visible in both themes. */
+.settings-group+.settings-group{margin-top:16px}
+.settings-group-title{margin-bottom:10px;font-size:16px}
+.settings-row{padding-block:11px}
+:root body .settings-page .settings-row select{
+  min-height:44px;
+  padding:8px 38px 8px 12px;
+  border:1px solid var(--line);
+  border-radius:var(--radius-control);
+  background-image:var(--settings-chevron);
+  background-repeat:no-repeat;
+  background-position:right 11px center;
+  background-size:18px 18px;
+  background-color:var(--soft);
+  color:var(--ink);
+  text-align:left;
+  text-align-last:left;
+}
+.settings-page .privacy-choice{align-items:center;min-height:48px}
+
+/* Presses confirm an action without shifting the navigation or changing the
+   app's geometry. Reduced-motion settings continue to take precedence. */
+.screen-back:active,.settings-back:active{transform:none}
+.moment-preview .moment-actions .text-link:focus-visible,
+.settings-page .settings-row select:focus-visible,
+.reflection-card .reflection-choices button:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+@media(prefers-reduced-motion:reduce){
+  .moment-preview .moment-actions .text-link{transition:none}
+}
+html[data-motion=off] .moment-preview .moment-actions .text-link{transition:none}
+
+/* Ask leads with the conversation. Animal styles remain an optional setting. */
+:root body .chat-welcome .guide-avatar,
+:root body .chat-welcome .donkey-signature,
+:root body .chat-welcome .animal-summary,
+:root body .chat-reply-row>.donkey-guide{display:none}
+.chat-scroll.has-conversation .chat-welcome{display:none}
+.chat-welcome .ask-welcome-title{margin:0;font:600 clamp(23px,6vw,28px)/1.25 var(--font);color:var(--ink)}
+.chat-welcome .chat-method{max-width:31ch;font-size:14px;line-height:1.55}
+:root body .chat-reply-row>.chat-bubble{max-width:min(540px,100%)}
+:root body .moment-preview.moment-short{padding:16px 17px}
+:root body .moment-short .moment-context{font-size:16px;line-height:1.58;margin:8px 0;color:var(--ink)}
+:root body .moment-preview>.moment-reference{font:500 12px/1.5 var(--font);color:var(--muted);margin-top:12px}
+.moment-preview .moment-actions{border-top:1px solid var(--line);margin-top:12px;padding-top:8px}
+html[data-size=large] body .moment-short .moment-context{font-size:18px}
+html[data-size=large] body .moment-preview>.moment-reference{font-size:14px}
+html[data-size=large] .chat-welcome .chat-method{font-size:17px}
+
+/* The brand mark is lettering, not reading copy. OpenDyslexic's wide glyphs
+   turn the one-line Home lockup into a clipped word and lose the trademark. */
+html[data-font=dyslexic] .brand-wordmark,
+html[data-font=dyslexic] .sidebar .brand .brand-wordmark{
+  font-family:Manrope,'DM Sans',system-ui,sans-serif;
+  font-weight:700;
+  letter-spacing:-.035em;
+  line-height:1.2;
+}
+html[data-font=dyslexic] .brand-tm{
+  font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  font-size:.42em;
+  line-height:1;
+  align-self:flex-start;
+  margin-top:.65em;
+}
+@media(max-width:650px){
+  html[data-font=dyslexic] .sidebar .brand .brand-wordmark{font-size:clamp(22px,6.4vw,28px);flex:0 0 auto;white-space:nowrap}
+  :root[data-font=dyslexic]{--home-title-size:28px}
+  :root[data-font=dyslexic][data-size=large]{--home-title-size:30px}
+  html[data-font=dyslexic] .simple-home .hub-heading h1{line-height:1.35;letter-spacing:normal;max-width:20ch}
+  html[data-font=dyslexic] .hub-heading .eyebrow{font-size:9px;letter-spacing:.08em}
+  html[data-font=dyslexic] .hub-heading .hub-description{font-size:14px;line-height:1.55}
+  html[data-font=dyslexic] .home-next.home-next-optional strong{font-size:16px;line-height:1.5;text-wrap:balance}
+  html[data-font=dyslexic][data-size=large] .home-next.home-next-optional strong{font-size:17px}
+  html[data-font=dyslexic] .home-scripture-title{font-size:15px;line-height:1.5}
+  html[data-font=dyslexic] .home-scripture-hint{font-size:12px;line-height:1.5}
+}

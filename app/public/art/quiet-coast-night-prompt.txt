@@ -1,0 +1,8 @@
+Generated with the built-in image tool from quiet-coast.png. Only the dark theme uses this colour variant.
+
+Use case: lighting-weather
+Edit target: the attached existing Steady light-mode coastal artwork.
+Change ONLY the colours, preserving the EXACT same image: same framing, rock silhouettes, coastline, cloud shapes, water reflections, brushwork, and every object's location. Do not redraw the scene, rearrange any elements, add or remove anything.
+Create a dark-mode inverse colour palette: the palest paper/sky/white areas become deep navy #091725, the mid-tone blue areas become muted navy/slate blue, and the darkest ink details become restrained silver-blue. It should read as a faithful tonal inversion of this exact artwork in a navy-to-silver-blue palette, not a different night scene.
+The broad light background must become close to #091725 so it can blend into a matching app background. Keep the inverted silver tones muted, never glaring white. Preserve subtle texture and the identical geometry.
+No green, teal, warm colours, text, logos, borders or new objects. Return only the edited image at the same aspect ratio as the reference.

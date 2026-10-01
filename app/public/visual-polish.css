@@ -1,0 +1,157 @@
+/* Header controls and return navigation have one visual owner. */
+:root{--page-gutter:20px;--header-control-bg:transparent;--header-control-hover:var(--soft);--header-control-ink:var(--accent);--card-title-size:22px}
+:root[data-size=large]{--card-title-size:26px}
+html:not([data-font=serif]):not([data-font=dyslexic]){--font:-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+/* These two sit on the page background beside the title, not over moving content,
+   so they stay flat and inked. Translucency here read as grey-on-white boxes
+   rather than glass; only the dock, which floats over content, earns blur. */
+.sidebar :is(.theme-toggle,.settings-link){width:44px;height:44px;min-height:44px;flex-shrink:0;border:0;border-radius:12px;background:var(--header-control-bg);color:var(--header-control-ink);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;touch-action:manipulation}
+.sidebar :is(.theme-toggle,.settings-link) svg{width:20px;height:20px;color:inherit;stroke-width:1.9}
+.sidebar .settings-link circle{fill:var(--bg)}
+@media(hover:hover){.sidebar :is(.theme-toggle,.settings-link):hover{background:var(--header-control-hover)}
+.sidebar .settings-link:hover circle{fill:var(--header-control-hover)}}
+.sidebar :is(.theme-toggle,.settings-link):focus-visible{outline:2px solid var(--header-control-ink);outline-offset:3px}
+.sidebar :is(.theme-toggle,.settings-link):active{transform:scale(.96)}
+
+/* Labels may wrap instead of squeezing the title on narrow or enlarged views. */
+.screen-header,.settings-heading{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;width:100%;margin:0 0 16px}
+.screen-header h1,.settings-heading h1{flex:1 1 180px;min-width:0;margin:0;color:var(--ink);font:700 var(--page-title-size,30px)/1.2 var(--font);letter-spacing:-.6px;overflow-wrap:normal;word-break:normal;hyphens:auto;outline:none}
+.screen-back,.settings-back{display:inline-flex;align-items:center;justify-content:flex-start;flex:0 1 auto;gap:7px;min-width:44px;min-height:44px;max-width:100%;height:auto;margin:0;padding:8px 0;border:0;border-radius:8px;background:transparent;color:var(--muted);font:500 16px/1.4 var(--font);text-decoration:none;white-space:normal;touch-action:manipulation}
+.screen-back svg,.settings-back svg{width:18px;height:18px;flex-shrink:0}
+.screen-back span,.settings-back span{min-width:0;overflow-wrap:anywhere}
+.screen-back[hidden],.settings-back[hidden],.screen-header[hidden]{display:none!important}
+/* On the device the system navigation bar offers the same destination, so the
+   page's own Back control steps aside rather than repeating it beside the real
+   one. Nothing else in the header moves, and hiding it also drops the measured
+   title offset, so the heading takes the row the pill was sharing. */
+html[data-native-back=true] .screen-back,html[data-native-back=true] .settings-back{display:none!important}
+@media(hover:hover){.screen-back:hover,.settings-back:hover{background:var(--header-control-hover);border-color:var(--line2)}}
+.screen-back:focus-visible,.settings-back:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.screen-back:active,.settings-back:active{transform:translateX(-1px)}
+html[data-size=large] :is(.screen-back,.settings-back){font-size:16px}
+html[data-font=dyslexic] :is(.hub-heading,.screen-header,.settings-heading) h1{letter-spacing:normal;line-height:1.6}
+
+/* Small repeated action groups align without another surface layer. */
+.passage-save-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));align-items:center;gap:10px;margin-top:16px}
+.passage-save-controls .chip{width:100%;min-width:0;min-height:44px}
+.passage-save-controls .text-link{justify-content:center;text-align:center;margin:0}
+.recommendation .step-options .step-links{align-items:stretch}
+.recommendation .step-options .text-link{justify-content:flex-start}
+.completion-next,.scripture-response-actions,.feelings-result-actions{align-items:center}
+#direction>.eyebrow{display:none}
+.progress-link,.review-helpful-link{line-height:1.5}
+@media(max-width:650px){.main-shell main,.home-screen .main-shell main,.settings-page{padding-inline:var(--page-gutter)}.sidebar,:root[data-theme=dark] .sidebar{padding-inline:var(--page-gutter)}}
+@media(max-width:360px){:root{--page-gutter:16px}.screen-header,.settings-heading{column-gap:10px}.passage-save-controls{grid-template-columns:1fr}.passage-save-controls .text-link{justify-content:flex-start;text-align:left}}
+
+/* Controls retain their native touch behavior; writing and reading stay copyable. */
+body{-webkit-user-select:none;user-select:none}
+:is(a,button,summary,label,select,.brand,.sidebar,.screen-header,.settings-heading,.eyebrow,.mini-label,.recommendation-label,.card-heading,.count-pill){-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:is(img,svg){-webkit-user-drag:none}
+:is(input:not([type=checkbox]),textarea,[contenteditable=true],blockquote,.verse-reference,.selected-verse,.chapter-verse,.evidence-item p,.progress-explainer,.record-text,.saved-passage-text,.recommendation>p,#visible-verse-context,#scripture-reason,#scripture-context){-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+@media(prefers-reduced-motion:reduce){.screen-back,.settings-back{transition:none;transform:none}}
+html[data-motion=off] :is(.screen-back,.settings-back){transition:none;transform:none}
+
+/* Flat groups and a single type scale keep the content ahead of its container. */
+/* Flat panels, kept flat. The page is now true white and true black, so a
+   panel only a couple of percent off it would disappear without a shadow: the
+   hairline is what separates panel from page, and it is the same hairline iOS
+   uses for a grouped row. Nothing here blurs -- only surfaces that float over
+   moving content earn that. */
+:root body:not(.chat-screen) :is(.focused-panel.card,.focused-panel.scripture-panel,.settings-card,.home-scripture){border:1px solid var(--line);border-radius:18px;background:var(--surface);box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+:root body:not(.chat-screen) :is(.home-scripture,.focused-panel.scripture-panel,.focused-panel.scripture-response,.focused-panel.reflection-card){background-image:none}
+:root body .brand-wordmark,:root[data-theme=dark] body .brand-wordmark{background:none;-webkit-text-fill-color:currentColor;text-shadow:none;color:var(--ink)}
+body:not(.chat-screen) .focused-panel>h3{font-family:var(--font);font-size:var(--card-title-size);font-weight:650}
+body:not(.chat-screen) .focused-panel .card-description{font-size:15px;line-height:1.55}
+body:not(.chat-screen) .focused-panel .button.primary{min-height:50px;border-radius:12px;font-size:16px;font-weight:600}
+body:not(.chat-screen) .focused-panel .text-link{font-size:15px;font-weight:500}
+body:not(.chat-screen) .focused-panel :is(.need-grid button,.reflection-choices button,.chip,.answer){border-color:transparent}
+body:not(.chat-screen) .focused-panel :is(.card-heading){display:none}
+body:not(.chat-screen) #action .card-heading:has(#task-count:not(:empty)){display:flex;justify-content:flex-end;margin-bottom:8px}
+body:not(.chat-screen) #action .card-heading :is(.section-icon,.eyebrow){display:none}
+
+/* One action comes first; secondary choices appear only when requested. */
+:root body :is(#direction,.scripture-direction){padding:24px;min-height:0}
+:root body #recommendation{padding:0;min-height:0}
+:root body :is(.step-meta,#recommendation-label){display:block;background:none;border:0;border-radius:0;padding:0;margin:0 0 12px;color:var(--muted);font:500 13px/1.5 var(--font);letter-spacing:0;text-transform:none}
+:root body :is(#recommendation-title,.scripture-direction>h2){font-size:var(--card-title-size,24px);line-height:1.35;max-width:28ch;margin:0 0 14px;letter-spacing:-.5px;hyphens:none}
+:root body :is(#recommendation-copy,.direction-action-copy){font-size:16px;line-height:1.6;max-width:56ch;margin:0 0 20px}
+:root body #recommendation #complete-recommendation,:root body .scripture-direction>.button{margin:0 0 18px;min-height:48px;width:100%}
+:root body :is(.step-options,.step-feedback){border-top:1px solid var(--line);padding-top:4px;margin:0}
+:root body :is(.step-options,.step-feedback)>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;min-height:48px;padding:12px 0;font-size:15px;font-weight:500;line-height:1.5;color:var(--muted);cursor:pointer}
+:root body :is(.step-options,.step-feedback)>summary::-webkit-details-marker{display:none}
+:root body :is(.step-options,.step-feedback)>summary::marker{content:''}
+:root body :is(.step-options,.step-feedback)>summary::after{content:'+';font-size:19px;line-height:1;flex-shrink:0}
+:root body :is(.step-options,.step-feedback)[open]>summary::after{content:'−'}
+:root body :is(.step-options,.step-feedback)>summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+:root body .step-options .step-links{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin:12px 0}
+:root body .step-options .direction-source{font-size:13px;margin:0 0 8px}
+:root body .step-options .recommendation-details{margin:16px 0 0;padding-top:16px;border-top:1px solid var(--line)}
+:root body .step-options .recommendation-details h4{font-size:14px;line-height:1.5;margin:0 0 8px;color:var(--ink)}
+:root body .step-options .recommendation-reason{border:0;padding:0}
+:root body .step-options .direction-alternatives{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+:root body .step-completion-actions{margin:0 0 18px}
+:root body :is(.step-done,.direction-complete){margin:0 0 20px;font-size:14px;color:var(--muted)}
+:root body .step-completion-actions .button{width:100%;min-height:48px}
+:root body .feedback{border:0;margin:0;padding:0}
+:root body :is(.step-feedback,.feedback) .chip-row{margin:8px 0 12px}
+:root body .step-feedback .small-copy{font-size:12px;margin-left:auto}
+:root body #feedback-status:empty{display:none}
+:root body .step-undo{display:flex;width:fit-content;margin:8px auto 0;font-size:14px;font-weight:500;color:var(--muted)}
+html[data-size=large] body :is(#recommendation-copy,.direction-action-copy,.step-meta,#recommendation-label,.step-options>summary,.step-feedback>summary){font-size:17px}
+html[data-font=dyslexic] body :is(#recommendation-title,.scripture-direction>h2){letter-spacing:normal;line-height:1.6}
+@media(max-width:380px){:root body :is(#direction,.scripture-direction){padding:20px}}
+
+/* A contextual Back control occupies the phone's top bar on secondary pages. */
+@media(max-width:650px){
+  :root body.settings-open .sidebar :is(.brand,.workspace-label,.sidebar-bottom,.profile){display:none}
+ body:not(.chat-screen) .screen-header,.settings-heading{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;height:auto;margin:0 0 16px;padding:8px 0 0;padding-left:var(--back-row-offset,0px);min-height:52px;background:transparent;border:0}
+ body:not(.chat-screen) .screen-header h1,body:not(.chat-screen) .settings-heading h1{flex:1 1 auto;min-width:0}
+ body:not(.chat-screen)[data-section="review"] .screen-header h1{flex:1 1 auto}
+ body:not(.chat-screen) .screen-back,.settings-back{position:fixed;z-index:11;top:calc(var(--screen-safe-top) + 8px);left:16px;display:inline-flex;align-items:center;gap:6px;min-width:44px;min-height:44px;max-width:calc(100% - 148px);margin:0;padding:0 14px;border:1px solid var(--line);border-radius:22px;background:var(--surface);box-shadow:none;color:var(--ink);font:500 14px/1.3 var(--font);text-decoration:none;white-space:nowrap;backdrop-filter:none;-webkit-backdrop-filter:none}
+ .screen-back span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+:root[data-theme=dark] body:not(.chat-screen) .screen-back,:root[data-theme=dark] .settings-back{box-shadow:none}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){body:not(.chat-screen) .screen-back,.settings-back{background:var(--surface);box-shadow:none}}
+  :root body :is(#direction,.scripture-direction){padding:20px}
+  body:not(.chat-screen) .reflection-card .reflection-choices{display:flex;flex-direction:column;gap:0;margin-top:16px}
+  :root body:not(.chat-screen) .reflection-choices button{min-height:54px;padding:12px 30px 12px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;font-size:16px;font-weight:400}
+  :root body:not(.chat-screen) .reflection-choices button:last-child{border-bottom:0}
+  :root body:not(.chat-screen) .reflection-choices button[aria-pressed=true]{padding-left:12px;border-radius:12px;background:var(--soft);color:var(--ink)}
+}
+/* A sidebar that floats over the page has no background of its own. The dark
+   theme gives it the page colour for the screens where it is a strip in flow,
+   where that colour is invisible anyway; on the screens where it becomes a
+   floating row, an opaque background would paint a plate straight across the
+   heading sharing the row and hide the title. Transparent is stated here once
+   for every floating case so a screen added later cannot reintroduce it. */
+:root body.settings-open .sidebar,
+:root body[data-section="review"] .sidebar,
+:root body[data-section="help"] .sidebar,
+:root body[data-section="home"]:has(.screen-header:not([hidden]) .screen-back:not([hidden])) .sidebar{background:transparent}
+
+/* Secondary-screen controls share one safe-area-aligned row. */
+@media(max-width:650px){
+  :root body.settings-open .sidebar,
+  :root body[data-section="review"] .sidebar,
+  :root body[data-section="help"] .sidebar,
+  :root body[data-section="home"]:has(.screen-header:not([hidden]) .screen-back:not([hidden])) .sidebar{
+    position:fixed;top:var(--screen-safe-top);left:0;right:0;z-index:10;height:60px;min-height:60px;
+    padding:8px 16px;
+    background:transparent;justify-content:flex-end;
+  }
+  body[data-section="review"] .sidebar .brand,
+  :root body[data-section="help"] .sidebar .brand,
+  :root body[data-section="home"]:has(.screen-header:not([hidden]) .screen-back:not([hidden])) .sidebar .brand,
+  :root body[data-section="help"] .sidebar :is(.workspace-label,.sidebar-bottom,.profile),
+  :root body[data-section="home"]:has(.screen-header:not([hidden]) .screen-back:not([hidden])) .sidebar :is(.workspace-label,.sidebar-bottom,.profile){display:none}
+  body[data-section="review"] .sidebar nav,
+  :root body[data-section="help"] .sidebar nav{justify-content:flex-end}
+}
+/* Reflect on phones: title left, theme and settings on the same row right.
+   This sits after the display:block rule above so the row wins. */
+body[data-section="review"] .screen-header{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.screen-header .theme-toggle,.screen-header .settings-link{width:44px;height:44px;min-height:44px;flex:0 0 auto;margin:0;border:0;border-radius:12px;background:transparent;color:var(--header-control-ink);touch-action:manipulation}
+.screen-header .theme-toggle svg,.screen-header .settings-link svg{width:20px;height:20px}
+@media(max-width:650px){
+  body[data-section="review"] .main-shell{min-height:100%}
+  body[data-section="review"] .main-shell main{min-height:100%}
+}

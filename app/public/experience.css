@@ -1,0 +1,93 @@
+/* Shared reading, reflection and practical-step components. */
+[hidden]{display:none!important}
+.experience-card h2,.scripture-panel h2{font:600 var(--card-title-size)/1.35 var(--font);letter-spacing:-.5px;color:var(--ink);margin:12px 0}
+.small-copy{color:var(--muted);font-size:14px;line-height:1.7}
+.experience-card .eyebrow,.mini-label{font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--muted)}
+.text-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;color:var(--muted);font:600 13px/1.5 var(--font);border:0;background:transparent;text-decoration:none;cursor:pointer;gap:8px}
+@media(hover:hover){.text-link:hover{color:var(--ink)}}
+.experience-card>.text-link{margin-right:20px}
+.context-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0;width:100%}
+.context-field{display:flex;flex-direction:column;gap:8px;min-width:0;color:var(--text);font-size:14px}
+.context-field select{width:100%;font:inherit;min-height:48px;border:1px solid var(--line2);border-radius:12px;padding:10px;background:var(--soft);color:var(--text)}
+.context-field select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.step-support{margin:16px 0}
+.recommendation .step-support p{font-size:14px;margin:8px 0;line-height:1.7}
+.scripture-link{display:block;min-height:44px;color:var(--gold);font-size:13px;line-height:1.6;padding:10px 0}
+.step-links{display:flex;flex-wrap:wrap;gap:4px 20px;margin-top:8px}
+.recommendation-reason>span{display:block;margin:8px 0}
+.evidence-label{font-weight:600;color:var(--ink)}
+.step-options,.recommendation-details{margin:12px 0}
+.step-options>summary,.recommendation-details>summary{min-height:44px;padding:12px 0;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer}
+.feedback{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+/* The schedule question is a quiet aside, not another card. It sits under the
+   step and stays out of the way once answered. */
+/* Room below the last answer so the primary action is clearly separate from the
+   question, rather than looking like a third answer. */
+.step-schedule{margin:16px 0 22px;padding:14px 0 0;border-top:1px solid var(--line)}
+.step-schedule p{margin:0}
+/* The two answers go on their own lines. Side by side they read as one sentence
+   fragment — "Yes, it suits me  Not really" — and nothing marks them as tappable.
+   Stacked, each is an obvious choice with a full-size target. */
+.step-schedule-answers{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin-top:2px}
+.step-schedule-answers button{text-align:left;padding:8px 0}
+.step-schedule-answers button+button{margin-top:2px}
+.feedback h4{font-size:15px;margin:0 0 12px;color:var(--ink)}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:10px 13px;min-height:44px;border-radius:12px;background:var(--soft);color:var(--text);border:1px solid var(--line2);font:inherit;font-size:13px}
+.feedback .small-copy{font-size:13px;margin:10px 0 0}
+.feedback-more{margin-top:8px}
+.feedback-more summary{min-height:44px;padding:12px 0;color:var(--muted);font-size:13px;cursor:pointer}
+.feedback-more[open]{margin-bottom:12px}
+.focused-panel.scripture-panel{display:block;min-height:0}
+.scripture-panel blockquote{font:400 24px/1.65 Georgia,serif;color:var(--ink);margin:20px 0 14px;max-width:none}
+.verse-reference{font-size:13px;color:var(--gold);letter-spacing:.3px}
+.scripture-details{border-top:1px solid var(--line);margin-top:20px;padding-top:8px;font-size:14px;line-height:1.7}
+.scripture-details summary{cursor:pointer;min-height:44px;padding:12px 0;color:var(--muted);font-size:13px}
+.scripture-details a{display:inline-block;color:var(--gold);padding-block:12px}
+.path-link{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid var(--line);border-radius:12px;padding:18px;background:var(--soft);transition:background-color var(--motion-fast) ease,transform var(--motion-fast) var(--motion-ease)}
+.path-link:active{transform:scale(.99)}
+.path-link>span{min-width:0}
+.path-link strong{display:block;font-weight:600;color:var(--ink);font-size:15px}
+.path-link small{display:block;margin-top:5px;font-size:13px;color:var(--muted);line-height:1.5}
+@media(hover:hover){.path-link:hover{background:var(--surface)}}
+.answer{display:block;min-height:48px;padding:13px 15px;border-radius:12px;border:1px solid var(--line2);background:var(--soft);color:var(--text);text-align:left;font:inherit}
+.progress-explainer{margin:4px 0 0;color:var(--muted);font-size:14px;line-height:1.75;max-width:60ch}
+.progress-totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:12px;margin:20px 0}
+.progress-totals>div{min-width:0;padding:18px;border:0;background:var(--soft);border-radius:12px}
+.progress-totals strong{display:block;font-size:30px;color:var(--ink);font-weight:500}
+.progress-totals span{display:block;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.history-row{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--line);font-size:14px;line-height:1.6}
+.history-row strong{color:var(--ink);font-weight:600}
+.progress-link{margin-top:14px}
+.evidence-item{padding:18px 0;border-bottom:1px solid var(--line)}
+.evidence-item h3{font-size:17px!important;letter-spacing:0!important;line-height:1.5!important}
+.evidence-item p{font-size:14px;line-height:1.75;color:var(--muted)}
+.context-more{margin:0 0 20px;border-top:1px solid var(--line)}
+.context-more summary{padding:12px 0;min-height:44px;color:var(--muted);font-size:14px;cursor:pointer}
+.context-more .context-grid{margin-top:10px}
+.step-finished #recommendation-copy,.step-finished .step-support,.step-finished .recommendation-details{display:none}
+.step-finished .feedback{margin-top:8px}
+.onboarding-screen .sidebar nav{display:none}
+.preferences-form{margin-top:16px}
+.preferences-form .context-grid{margin-top:0}
+.onboard-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 20px;margin-top:20px}
+.core-path{font-size:13px;line-height:1.9;color:var(--gold);margin:20px 0}
+.chapter-verse{font-size:16px;line-height:1.8;margin:14px 0;padding:12px;border-radius:12px}
+.verse-number{font-size:11px;color:var(--gold);margin-right:10px;font-weight:600}
+.selected-verse{background:var(--forest-soft);border-left:2px solid var(--gold)}
+.chapter-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:20px}
+.chapter-controls .button{font-size:13px;min-height:44px;padding:10px}
+.chapter-controls span{font-size:13px;color:var(--muted)}
+button:disabled{cursor:default;opacity:.5;transform:none}
+html[data-spacing=roomy] :is(p,blockquote,label,button,a,select){line-height:1.9;letter-spacing:.025em}
+html[data-spacing=roomy] :is(.need-grid,.reflection-choices){gap:15px}
+.need-grid button{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px}
+.need-sub,
+.need-grid button .need-sub{font-size:11px;line-height:1.3;color:var(--muted);font-weight:400}
+html[data-size=large] .need-sub{font-size:13px}
+html[data-size=large] :is(.card-description,.small-copy,.text-link,.task label,.settings-row label,.settings-row p,.settings-row select,.context-field,.recommendation p,.chip,.need-grid button,.reflection-choices button,.path-link small,.scripture-details,.scripture-link,.history-row,.verse-reference,.context-more summary,.optional-write summary,.recommendation-details summary,.feedback-more summary){font-size:16px!important}
+html[data-size=large] .scripture-panel blockquote{font-size:28px}
+html[data-size=large] .chapter-verse{font-size:18px}
+html[data-size=large] .sidebar .nav-label{font-size:12px}
+html[data-font=dyslexic] :is(.experience-card h2,.scripture-panel h2,.scripture-panel blockquote){font-family:var(--font);line-height:1.7;letter-spacing:normal}
+@media(max-width:500px){.context-grid{grid-template-columns:1fr}.scripture-panel blockquote{font-size:22px}.experience-card .button{max-width:100%;white-space:normal}.chapter-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.chapter-controls>span{grid-column:1/-1;grid-row:1;text-align:center}.chapter-controls .button{width:100%}.onboard-actions .button.primary{width:100%}html[data-font=dyslexic] .progress-totals,html[data-size=large] .progress-totals{grid-template-columns:1fr}}

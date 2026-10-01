@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Settings shot</title>
+<style>
+  body{margin:0;background:#222;font:13px system-ui;color:#eee}
+  .wrap{display:flex;gap:16px;padding:12px}
+  figure{margin:0}
+  figcaption{padding:4px 0}
+  iframe{width:390px;height:844px;border:1px solid #888;background:#fff;display:block}
+  /* A device frame with a notch, so the safe area is visible in the shot. */
+  .notch{position:relative}
+  .notch::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:160px;height:44px;background:#000;border-radius:0 0 18px 18px;z-index:5}
+  .home{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);
+    width:140px;height:5px;border-radius:3px;background:#000;opacity:.35;z-index:5}
+</style>
+<h1 style="padding:12px">Settings at iPhone size</h1>
+<div class="wrap">
+  <figure class="notch">
+    <iframe id="app" title="Steady"></iframe>
+    <div class="home"></div>
+    <figcaption>safe-top 59 / safe-bottom 34, published like the native bridge</figcaption>
+  </figure>
+</div>
+<script>
+'use strict';
+const frame = document.getElementById('app');
+frame.src = '../public/index.html#home';
+frame.addEventListener('load', async () => {
+  const win = frame.contentWindow, doc = win.document;
+  await new Promise(r => setTimeout(r, 600));
+  const root = doc.documentElement;
+  root.style.setProperty('--steady-safe-top', '59px');
+  root.style.setProperty('--steady-safe-bottom', '34px');
+  win.location.hash = '#settings';
+  await new Promise(r => setTimeout(r, 700));
+  win.dispatchEvent(new win.Event('resize'));
+  await new Promise(r => setTimeout(r, 300));
+  // Overlay the safe-area boundary so the top clip is visible.
+  const overlay = doc.createElement('div');
+  overlay.style.cssText = 'position:fixed;left:0;right:0;top:0;height:59px;background:rgba(255,0,0,.28);z-index:9999;pointer-events:none;border-bottom:2px solid red';
+  doc.body.appendChild(overlay);
+  await new Promise(r => setTimeout(r, 200));
+  document.body.dataset.ready = '1';
+});
+</script>
+</html>

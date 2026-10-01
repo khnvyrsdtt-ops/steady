@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Steady touch navigation verification</title>
+<style>
+body{font:16px/1.5 system-ui;margin:24px;background:#edf4f9;color:#173247}button{padding:12px 20px;font:inherit}iframe{width:390px;height:844px;border:1px solid #9aafbf;border-radius:24px;max-width:100%}li{margin:8px 0}.pass{color:#185e32}.fail{color:#a51c1c}
+</style>
+<h1>Touch navigation verification</h1>
+<p>This runs browser TouchEvents against the complete app at a phone width. Events are synthetic; physical iPhone scrolling arbitration still requires a device check.</p>
+<p>Serve the app directory, then open <code>/tests/navigation-touch.browser.html</code>.</p>
+<button id="run">Run touch tests</button>
+<p id="summary" role="status">Ready</p>
+<ol id="results"></ol>
+<iframe id="app" title="Steady at iPhone width"></iframe>
+<script>
+'use strict';
+const frame = document.querySelector('#app');
+const summary = document.querySelector('#summary');
+const output = document.querySelector('#results');
+const assert = (value, message) => { if (!value) throw new Error(message); };
+const nextFrame = () => new Promise(resolve => requestAnimationFrame(resolve));
+async function settle() { for (let count=0; count<5; count++) await nextFrame(); }
+async function fixture() {
+  await new Promise(resolve => { frame.onload=resolve; frame.src='../public/index.html?touch-test='+Date.now()+'#home'; });
+  const win=frame.contentWindow, doc=win.document;
+  await doc.fonts.ready;
+  await settle();
+  const nav=doc.querySelector('.sidebar nav');
+  const links=[...nav.querySelectorAll('a.nav-item[data-section]')];
+  const center=index=>{const box=links[index].getBoundingClientRect();return {x:box.left+box.width/2,y:box.top+box.height/2};};
+  const selected=()=>nav.querySelector('[aria-current]')?.dataset.section;
+  const lens=()=>nav.querySelector('.dock-selection').getBoundingClientRect();
+  assert(typeof win.Touch==='function' && typeof win.TouchEvent==='function','Browser must expose real Touch and TouchEvent constructors');
+  assert(win.getComputedStyle(nav).touchAction==='none','Dock must reserve touch gestures');
+  assert(selected()==='home','Initial Home tab');
+  function touch(point,id=7,target=links[0]) {return new win.Touch({identifier:id,target,clientX:point.x,clientY:point.y,pageX:point.x,pageY:point.y,screenX:point.x,screenY:point.y});}
+  function fire(name,point,options={}) {
+    const target=options.target||links[0];
+    const finger=touch(point,options.id||7,target);
+    const touches=options.touches||((name==='touchend'||name==='touchcancel')?[]:[finger]);
+    const event=new win.TouchEvent(name,{bubbles:true,cancelable:true,touches,targetTouches:touches,changedTouches:[finger]});
+    target.dispatchEvent(event);
+    return event;
+  }
+  function pointer(name,point) {links[0].dispatchEvent(new win.PointerEvent(name,{bubbles:true,cancelable:true,pointerType:'touch',pointerId:14,isPrimary:true,button:0,clientX:point.x,clientY:point.y}));}
+  return {win,doc,nav,links,center,selected,lens,touch,fire,pointer};
+}
+const tests=[
+  ['A touch scrub follows the finger and commits Reflect without snapping back',async app=>{
+    const first=app.center(0), last=app.center(2);
+    assert(app.fire('touchstart',first).defaultPrevented,'touchstart must prevent native scrolling/link dragging');
+    assert(app.fire('touchmove',{x:first.x+4,y:first.y}).defaultPrevented,'small initial touch movement stays owned');
+    app.fire('touchmove',last);
+    assert(app.nav.dataset.dragTarget==='review','Reflect is the drag target');
+    assert(Math.abs(app.lens().x+app.lens().width/2-last.x)<1,'Selection lens follows the actual finger coordinate');
+    assert(app.selected()==='home','Route remains Home before release');
+    assert(app.fire('touchend',last).defaultPrevented,'touchend must suppress compatibility click');
+    await settle();
+    assert(app.selected()==='review','Reflect selected after touch release');
+    assert(Math.abs(app.lens().x+app.lens().width/2-last.x)<1,'Selection remains at Reflect after render/observers');
+  }],
+  ['A touch tap selects Today once and rejects the trailing click',async app=>{
+    let commits=0; app.doc.addEventListener('steady:screen',()=>commits++);
+    app.fire('touchstart',app.center(1)); app.fire('touchend',app.center(1)); await settle();
+    app.links[0].dispatchEvent(new app.win.MouseEvent('click',{bubbles:true,cancelable:true,detail:1})); await settle();
+    assert(app.selected()==='today','Trailing compatibility click must not return Home');
+    assert(commits===1,'Touch tap produces exactly one screen commit');
+  }],
+  ['Safari pointer compatibility events cannot cancel an active touch scrub',async app=>{
+    app.pointer('pointerdown',app.center(0)); app.fire('touchstart',app.center(0));
+    app.pointer('pointermove',app.center(2)); app.pointer('pointercancel',app.center(2));
+    app.fire('touchmove',app.center(2)); app.pointer('pointerup',app.center(2));
+    assert(app.nav.dataset.dragTarget==='review','Touch preview survives pointer cancellation');
+    app.fire('touchend',app.center(2)); await settle();
+    assert(app.selected()==='review','Touch release commits Reflect');
+  }],
+  ['A cancelled touch restores Home and a subsequent touch tap still works',async app=>{
+    app.fire('touchstart',app.center(0)); app.fire('touchmove',app.center(2)); app.fire('touchcancel',app.center(2)); app.fire('touchend',app.center(2));
+    await settle(); assert(app.selected()==='home','Cancelled touch cannot select Reflect');
+    app.fire('touchstart',app.center(1)); app.fire('touchend',app.center(1)); await settle();
+    assert(app.selected()==='today','New touch tap works after cancellation');
+  }],
+  ['A second finger outside the dock cancels the touch scrub',async app=>{
+    app.fire('touchstart',app.center(0)); app.fire('touchmove',app.center(2));
+    const extra={x:100,y:200}; app.fire('touchstart',extra,{target:app.doc.querySelector('main'),id:8,touches:[app.touch(app.center(2)),app.touch(extra,8)]});
+    app.fire('touchend',app.center(2)); await settle(); assert(app.selected()==='home','Two-finger gesture cannot navigate');
+  }],
+  ['Vertical movement and releases outside the dock do not navigate',async app=>{
+    const first=app.center(0),last=app.center(2);
+    app.fire('touchstart',first); app.fire('touchmove',{x:first.x+2,y:first.y-25}); app.fire('touchmove',last); app.fire('touchend',last); await settle();
+    assert(app.selected()==='home','Vertical gesture cancelled');
+    app.fire('touchstart',first); app.fire('touchmove',last); app.fire('touchend',{x:last.x,y:last.y-100}); await settle();
+    assert(app.selected()==='home','Outside release cancelled');
+  }],
+  ['Keyboard activation still uses the normal accessible link',async app=>{
+    app.links[1].dispatchEvent(new app.win.MouseEvent('click',{bubbles:true,cancelable:true,detail:0})); await settle();
+    assert(app.selected()==='today','Keyboard click selects Today');
+  }]
+];
+document.querySelector('#run').addEventListener('click',async event=>{
+  event.target.disabled=true; output.replaceChildren(); let passed=0;
+  for(const [name,run] of tests){
+    summary.textContent='Running: '+name;
+    const line=document.createElement('li'); output.append(line);
+    try{await run(await fixture());line.className='pass';line.textContent='PASS — '+name;passed++;}
+    catch(error){line.className='fail';line.textContent='FAIL — '+name+': '+error.message;}
+  }
+  summary.textContent=passed+'/'+tests.length+' browser touch tests passed';
+  event.target.disabled=false;
+});
+</script>
+</html>

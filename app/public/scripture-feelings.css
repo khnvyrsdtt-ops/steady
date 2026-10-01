@@ -1,0 +1,373 @@
+/* Practical-step controls share the calm spacing used by Bible Help. */
+html body .recommendation #complete-recommendation{margin:20px 0 12px;width:100%}
+html body .recommendation .step-support{margin:4px 0 10px}
+.recommendation .step-fit{font-size:13px;line-height:1.6;color:var(--muted);margin:14px 0 16px!important}
+/* What Steady remembered. Kept in ink rather than muted so it reads as a fact it
+   is standing on, with a hairline above rather than a panel, so the step still
+   leads and this supports it. */
+.recommendation .step-recall{font-size:13px;line-height:1.5;color:var(--ink);margin:12px 0 0!important;padding-top:10px;border-top:1px solid var(--line)}
+.recommendation .step-recall + .step-fit{margin-top:6px!important}
+.recommendation .step-blocker{font-size:12px;font-weight:500;margin:8px 0 16px;color:var(--muted)}
+.recommendation .step-blocker select{display:block;width:100%;min-height:44px;margin:6px 0 0;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:16px var(--font)}
+.recommendation .step-leave{display:inline-flex;align-items:center;min-height:44px;font-size:13px;margin:0 0 4px}
+html[data-size=large] .recommendation :is(.step-fit,.step-recall,.step-blocker,.step-leave){font-size:16px}
+.recommendation :is(.step-support,.step-options)>summary{font-size:14px;font-weight:550;line-height:1.5;color:var(--ink);cursor:pointer;padding:13px 0;min-height:46px}
+.recommendation .step-support .scripture-link{display:block;margin:12px 0;font-size:13px}
+.recommendation .step-options .step-links{margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px}
+.recommendation .step-options .text-link{font-size:13px;text-align:left;min-height:44px;display:flex;align-items:center}
+.recommendation .step-options .recommendation-details{margin:12px 0 0}
+.recommendation .step-options .recommendation-details summary{font-size:14px;min-height:44px;padding:12px 0}
+.recommendation.step-finished .step-support{display:none}
+/* The chat is a viewport, not a glass card. A transparent card still inherits
+   backdrop blur and rounded clipping, which produces a seam above iOS's keyboard. */
+html body .feelings-panel{
+  position:relative;display:flex;flex:1;flex-direction:column;min-height:0;width:100%;max-width:none;
+  height:auto;margin:0!important;padding:0!important;overflow:visible;
+  background:transparent!important;border:0!important;border-radius:0!important;
+  box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  animation:none!important;transform:none!important;
+}
+.feelings-panel #feelings-form{display:flex;flex:1;min-height:0;min-width:0;flex-direction:column;margin:0}
+.chat-viewport{position:relative;isolation:isolate;display:flex;flex:1;min-height:0;min-width:0;overflow:hidden}
+.chat-scroll{flex:1;min-height:0;min-width:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:calc(var(--chat-top-space) + var(--chat-start-gap,28px)) 0 calc(var(--chat-bottom-space) + var(--chat-input-height,120px) + 26px + var(--keyboard-overlap,0px));scroll-padding-top:calc(var(--chat-top-space) + 12px);scroll-padding-bottom:calc(var(--chat-bottom-space) + var(--chat-input-height,120px) + 12px + var(--keyboard-overlap,0px));touch-action:pan-y pinch-zoom}
+.chat-scroll::-webkit-scrollbar{display:none}
+/* The transcript receives focus for navigation and scrolling; it is not a control. */
+.chat-scroll:focus{outline:none}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.chat-welcome,.chat-reply-row{display:flex;align-items:flex-end;gap:10px}
+.chat-welcome{flex:0 0 auto;gap:14px;margin:0 0 20px;align-items:center;flex-direction:column;text-align:center}
+.chat-welcome .donkey-guide{flex:0 0 68px;width:68px;height:68px;border-radius:24px}
+.chat-welcome .guide-avatar{position:relative;flex:0 0 68px;width:68px;height:68px}
+.chat-welcome .guide-avatar .donkey-guide{width:68px;height:68px}
+.chat-welcome .donkey-pop{width:56px;height:56px}
+.chat-welcome .chat-bubble{width:100%;max-width:360px;padding:0 8px;background:transparent;border-radius:0}
+.chat-welcome .donkey-signature{align-items:center;flex-direction:column;gap:5px;margin-bottom:10px}
+.chat-welcome .donkey-signature strong{font-size:26px;line-height:1.2}
+.chat-welcome .chat-method{margin:10px auto 0;font-size:12px;line-height:1.6;color:var(--muted)}
+
+/* The portrait opens the wheel; a small badge marks the same action. */
+.chat-welcome .donkey-guide[data-tappable]{transition:transform .18s ease,box-shadow .18s ease}
+.chat-welcome .donkey-guide[data-tappable]:active{transform:scale(.965);box-shadow:inset 0 1px 3px rgba(20,23,26,.18)}
+.chat-welcome .wheel-open{position:absolute;right:-15px;bottom:-15px;z-index:1;display:grid;place-items:center;width:44px;height:44px;min-height:44px;margin:0;padding:0;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.chat-welcome .wheel-open::before{content:"";position:absolute;inset:8px;border:1px solid var(--line);border-radius:50%;background:var(--surface)}
+.chat-welcome .wheel-open svg{position:relative;width:15px;height:15px}
+.chat-welcome .wheel-open:active{opacity:.6}
+.chat-welcome .wheel-open:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:50%}
+@media(hover:hover){.chat-welcome .wheel-open:hover{color:var(--ink)}}
+@media(prefers-reduced-motion:reduce){.chat-welcome .donkey-guide[data-tappable]{transition:none}}
+.chat-reply-row{align-items:flex-start}
+.chat-reply-row>.chat-bubble{max-width:min(540px,calc(100% - 44px))}
+.donkey-guide{position:relative;display:grid;place-items:center;flex:0 0 54px;width:54px;height:54px;border-radius:18px;background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:inset 0 1px 0 rgba(255,255,255,.8);transition:background var(--motion-enter) ease,box-shadow var(--motion-enter) ease;perspective:300px}
+:root[data-theme=dark] .donkey-guide{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+:root[data-theme=dark] .donkey-guide[data-expression="concerned"],:root[data-theme=dark] .donkey-guide[data-expression="encouraged"],:root[data-theme=dark] .donkey-guide[data-expression="happy"],:root[data-theme=dark] .donkey-guide[data-expression="relieved"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to))}
+.donkey-guide[data-expression="listening"] img{transform:rotateY(9deg) translateY(-1px)}
+.donkey-guide img{transition:transform .3s ease,filter .3s ease}
+.chat-exchange.is-new .donkey-guide img{animation:donkey-react .45s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes donkey-react{0%{transform:translateY(5px) scale(.9)}55%{transform:translateY(-2px) scale(1.03)}100%{transform:none}}
+.donkey-guide[data-expression="neutral"] img{transform:none}
+.donkey-guide[data-expression="thinking"] img{transform:scale(.97) rotate(-2deg);filter:saturate(.94)}
+.donkey-guide[data-expression="concerned"] img{transform:none;filter:contrast(1.04) saturate(.96)}
+.donkey-guide[data-expression="concerned"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.8)}
+.donkey-guide[data-expression="encouraged"] img{transform:scale(1.05)}
+.donkey-guide[data-expression="encouraged"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to))}
+.donkey-guide[data-expression="happy"] img{transform:scale(1.04)}
+.donkey-guide[data-expression="happy"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.8)}
+.donkey-guide[data-expression="confused"] img{transform:rotate(-5deg) translateY(-1px);filter:saturate(.94)}
+.donkey-guide[data-expression="relieved"] img{transform:scale(1.01)}
+.donkey-guide[data-expression="relieved"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to))}
+.donkey-guide[data-expression="focused"] img{transform:translateY(1px)}
+.donkey-guide[data-expression="focused"]{box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.8)}
+.donkey-guide[data-expression="searching"] img{transform:rotateY(12deg) translateY(-1px);filter:saturate(1.05)}
+.donkey-guide[data-expression="searching"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.8)}
+.donkey-guide[data-expression="matching"] img{transform:scale(1.02) translateY(-1px)}
+.donkey-guide[data-expression="matching"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.8)}
+:root[data-theme=dark] .donkey-guide[data-expression="searching"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:0 8px 20px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.08)}
+:root[data-theme=dark] .donkey-guide[data-expression="matching"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:0 6px 16px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.08)}
+/* The pack lightens as understanding grows. Same tile, same donkey: only the
+   carrying weight shifts, and only on the large welcome figure. */
+.chat-welcome .donkey-guide[data-load="carrying"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.8)}
+.chat-welcome .donkey-guide[data-load="carrying"] img{filter:saturate(.97)}
+.chat-welcome .donkey-guide[data-load="lighter"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.9)}
+.chat-welcome .donkey-guide[data-load="lighter"] img{filter:saturate(1.02)}
+/* One question at a time, with a soft step between stages. Calm, never chatty. */
+.chat-suggestions[data-stage] button{animation:branch-in .22s ease-out backwards}
+.chat-suggestions[data-stage="situations"] button:nth-of-type(2){animation-delay:.03s}
+.chat-suggestions[data-stage="situations"] button:nth-of-type(3){animation-delay:.06s}
+.chat-suggestions[data-stage="stances"] button:nth-of-type(2){animation-delay:.03s}
+.chat-suggestions[data-stage="stances"] button:nth-of-type(3){animation-delay:.06s}
+.chat-suggestions[data-stage="stances"] button:nth-of-type(4){animation-delay:.09s}
+@keyframes branch-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+html[data-motion=off] .chat-suggestions[data-stage] button{animation:none}
+html[data-motion=off] .donkey-guide,html[data-motion=off] .donkey-guide img{animation:none!important;transform:none!important}
+.donkey-pop{width:45px;height:45px;object-fit:contain;image-rendering:auto;filter:drop-shadow(0 2px 2px rgba(20,23,26,.12));animation:donkey-pop .38s cubic-bezier(.2,.8,.2,1) backwards}
+.donkey-guide.small{flex-basis:34px;width:34px;height:34px;border-radius:12px;box-shadow:none}
+.donkey-guide.small img{width:29px;height:29px;object-fit:contain;image-rendering:auto}
+/* Burden moves from the chin, with a short pause between each curious nod. */
+.chat-welcome .donkey-guide img{transform-origin:50% 82%;animation:burden-idle 6.4s ease-in-out infinite}
+.chat-welcome .donkey-guide[data-expression="listening"] img{animation:burden-listening 3.6s ease-in-out infinite}
+.chat-welcome .donkey-guide[data-expression="thinking"] img{animation:burden-thinking 1.8s ease-in-out infinite}
+.chat-welcome .donkey-guide[data-expression="concerned"] img{animation-duration:8s}
+body:not(.chat-screen) .chat-welcome .donkey-guide img{animation-play-state:paused}
+@keyframes burden-idle{
+  0%,10%,65%,100%{transform:translateY(0) rotate(0)}
+  23%{transform:translateY(-1px) rotate(-3deg)}
+  38%{transform:translateY(-2px) rotate(3deg)}
+  48%{transform:translateY(0) rotate(0)}
+  53%{transform:translateY(1px) rotate(0) scaleY(.98)}
+  60%{transform:translateY(-1px) rotate(0)}
+}
+@keyframes burden-listening{
+  0%,15%,85%,100%{transform:translateY(0) rotate(0) rotateY(0)}
+  35%{transform:translateY(-1px) rotate(-4deg) rotateY(9deg)}
+  55%{transform:translateY(1px) rotate(-2deg) rotateY(5deg)}
+  70%{transform:translateY(-1px) rotate(1deg) rotateY(0)}
+}
+@keyframes burden-thinking{
+  0%,100%{transform:translateY(0) rotate(-3deg)}
+  50%{transform:translateY(-2px) rotate(3deg)}
+}
+@keyframes burden-searching{
+  0%,100%{transform:translateY(0) rotateY(0)}
+  33%{transform:translateY(-1px) rotateY(12deg)}
+  66%{transform:translateY(1px) rotateY(-8deg)}
+}
+@keyframes burden-matching{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-2px) scale(1.03)}
+}
+.chat-welcome .donkey-guide[data-expression="searching"] img{animation:burden-searching 3s ease-in-out infinite}
+.chat-welcome .donkey-guide[data-expression="matching"] img{animation:burden-matching 2.5s ease-in-out infinite}
+.chat-bubble{min-width:0;max-width:min(520px,calc(100% - 64px));padding:13px 16px;border-radius:18px;font-size:14px;line-height:1.55;overflow-wrap:anywhere}
+.assistant-bubble{background:var(--soft);border-bottom-left-radius:6px;color:var(--ink)}
+.assistant-bubble strong{display:block;margin-bottom:3px}.assistant-bubble p{margin:0}
+.donkey-signature{display:flex;align-items:baseline;flex-wrap:wrap;gap:3px 9px;margin-bottom:5px}
+.donkey-signature strong{margin:0;font-family:Georgia,serif;font-size:18px;font-weight:500;letter-spacing:-.3px}
+.donkey-signature span{font:650 9px/1.4 var(--font);letter-spacing:1.3px;color:var(--muted)}
+.chat-input-area{position:absolute;z-index:2;left:0;right:0;bottom:calc(var(--chat-bottom-space) + var(--keyboard-overlap,0px));display:flex;flex-direction:column;gap:8px;margin-bottom:0;pointer-events:none;background:transparent;border:0;border-radius:0;padding:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.chat-input-area>*{pointer-events:auto}
+.chat-composer{display:flex;flex:0 0 auto;align-items:flex-end;gap:8px;margin:0 var(--chat-gutter);padding:6px 10px 6px 16px;border-radius:24px;background:color-mix(in srgb,var(--surface) 60%,transparent);border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),var(--shadow);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.chat-composer{background:var(--surface);box-shadow:none}}
+.chat-composer:focus-within{border-color:var(--line2);box-shadow:none}
+.chat-suggestions{display:flex;flex:0 0 auto;gap:8px;margin:0;padding:2px var(--chat-gutter);overflow-x:auto;scrollbar-width:none}
+.chat-suggestions::-webkit-scrollbar{display:none}
+.chat-suggestions[hidden]{display:none}
+.chat-suggestions button{flex:0 0 auto;min-height:48px;padding:12px 14px;border:1px solid var(--line);border-radius:22px;background:color-mix(in srgb,var(--surface) 70%,transparent);color:var(--ink);font:500 13px/1.4 var(--font);cursor:pointer;touch-action:manipulation}
+.chat-suggestions button:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+.branch-ack{flex:0 0 auto;align-self:center;font-size:12px;color:var(--muted);margin:0 4px}
+/* On a phone the prompt and the choices cannot share one scrolling row: the
+   prompt eats the width and the next chip is sliced mid-word at the edge. Give
+   the prompt its own line and let only the choices scroll. */
+@media(max-width:650px){
+  .chat-suggestions:has(.branch-ack){flex-wrap:wrap;overflow-x:visible;row-gap:10px}
+  .chat-suggestions:has(.branch-ack) .branch-ack{flex:0 0 100%;text-align:center;margin:0}
+  .chat-suggestions:has(.branch-ack) button{flex:1 1 auto}
+}
+.moment-preview>.moment-practice{font-size:13px;line-height:1.65;color:var(--muted);margin:10px 0 2px;padding-left:12px;border-left:2px solid var(--gold)}
+@media(hover:hover){.chat-suggestions button:hover{transform:translateY(-1px)}}
+.speech-word{border-radius:4px;transition:background-color .15s ease}
+.speech-word.spoken{background:var(--forest-soft);color:var(--ink)}
+.thinking-bubble{display:inline-flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:30px;min-width:92px}
+.thinking-text{font-size:12px;line-height:1.5;color:var(--muted)}
+.thinking-drops{display:inline-flex;align-items:flex-end;gap:7px;height:20px;padding-bottom:2px}
+.thinking-drop{width:7px;height:7px;border-radius:50% 50% 50% 4px;background:var(--gold);opacity:0;transform:rotate(45deg);animation:thinking-rise 1.4s ease-in infinite}
+.thinking-drop:nth-child(2){animation-delay:.22s}
+.thinking-drop:nth-child(3){animation-delay:.44s}
+@keyframes thinking-rise{0%{transform:rotate(45deg) translate(0,6px) scale(.7);opacity:0}35%{opacity:.9}100%{transform:rotate(45deg) translate(-5px,-9px) scale(1);opacity:0}}
+.donkey-guide.is-thinking img{transform-origin:50% 82%;animation:burden-thinking 1.8s ease-in-out infinite}
+html[data-motion=off] .thinking-drop{animation:none;opacity:.6}
+.chat-send{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--forest);color:var(--bg);cursor:pointer;touch-action:manipulation}
+.chat-send .steady-icon{width:24px;height:24px;stroke-width:2}
+.chat-send[data-empty="true"]{background:var(--soft);color:var(--muted)}
+@media(hover:hover){.chat-send:hover{transform:translateY(-1px)}}
+.feelings-panel label{display:block;font-size:16px;font-weight:650;margin-bottom:10px}
+html:root body .feelings-panel .chat-composer textarea{display:block;flex:1;min-width:0;width:100%;box-sizing:border-box;min-height:44px;max-height:min(130px,max(44px,calc((var(--app-height,100dvh) - var(--keyboard-overlap,0px)) * .25)));margin:0;padding:10px 0;font-family:var(--font);font-size:16px;line-height:1.5;resize:none;border:0;border-radius:0;color:var(--ink);background:transparent;box-shadow:none!important;outline:0!important;outline-offset:0!important;-webkit-appearance:none;appearance:none}
+.chat-composer textarea::placeholder{color:var(--muted);opacity:1}
+.chat-exchange{display:grid;gap:12px;margin:20px 0 0;padding:0 0 8px}
+.chat-exchange.is-new{animation:moment-in .2s ease-out}
+.user-bubble{justify-self:end;background:var(--forest);color:var(--bg);border-bottom-right-radius:6px;white-space:pre-wrap;overflow-wrap:anywhere}
+.moment-preview{max-width:min(540px,calc(100% - 44px));padding:17px;background:color-mix(in srgb,var(--forest-soft) 72%,var(--surface));border:0}
+.chat-exchange.is-new .moment-preview{animation:message-write-in .25s cubic-bezier(.22,1,.36,1) both}
+.chat-exchange.urgent .moment-preview{background:var(--danger-soft);border-color:color-mix(in srgb,var(--danger) 34%,transparent)}
+:root[data-theme=dark] .chat-exchange.urgent .moment-preview{background:var(--danger-soft);border-color:color-mix(in srgb,var(--danger) 45%,transparent)}
+.moment-response{font-size:14px;line-height:1.65;margin:0 0 14px;color:var(--ink)}
+.moment-support{display:flex;align-items:center;min-height:44px;margin:0 0 16px;font-size:14px}
+.moment-depth{margin-top:12px;padding-top:4px}
+.moment-depth>summary{min-height:44px;display:list-item;align-content:center;padding:10px 0;cursor:pointer;font-size:13px;line-height:1.5;color:var(--forest)}
+.moment-depth p{font-size:14px;line-height:1.65;margin:4px 0 14px}
+.moment-next-step{margin-top:18px;padding-left:12px;border-left:2px solid var(--forest)}
+.moment-next-step .moment-step-title{font-family:var(--font);font-size:13px;font-weight:650;line-height:1.5;margin:0 0 5px;color:var(--forest)}
+.moment-next-step .moment-practice{font-size:14px;line-height:1.65;margin:0}
+.moment-next-step .moment-editorial{font-size:11px;line-height:1.5;color:var(--muted);margin:7px 0 0}
+.feelings-panel .moment-focus{font-size:12px;font-weight:500;color:var(--muted);margin:16px 0 8px}
+.moment-focus select{display:block;box-sizing:border-box;width:100%;min-width:0;max-width:100%;min-height:44px;margin-top:6px;border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:var(--surface);color:var(--ink);font:inherit;font-size:16px}
+.moment-preview blockquote{font-family:Georgia,serif;font-size:20px;line-height:1.55;margin:0 0 8px;color:var(--ink)}
+.moment-preview .verse-reference{font-size:12px;color:var(--muted);margin:0}
+.moment-preview>.moment-reference{font-family:Georgia,serif;font-size:21px;line-height:1.5;margin:0;color:var(--ink);letter-spacing:-.2px}
+.moment-preview>.moment-focus{margin:10px 0 2px}
+html body .moment-preview.moment-short{padding:12px 15px;max-width:min(480px,calc(100% - 44px))}
+.moment-preview.moment-short .moment-actions{margin-top:6px}
+.moment-preview.moment-short .moment-focus{margin:8px 0 2px}
+.moment-short .moment-context{font-size:14px;line-height:1.6;margin:10px 0}
+.moment-help-label{margin:0;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.04em}
+.moment-adjust-options[hidden]{display:none}
+.moment-adjust-options{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0 2px}
+.moment-adjust-choice{min-height:38px;padding:7px 10px;border:1px solid var(--line2);border-radius:12px;background:var(--soft);color:var(--ink);font-size:12px;text-align:left}
+.moment-adjust-choice:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.local-ai-label{font-size:11px;line-height:1.4;color:var(--muted);margin:8px 0}
+html[data-size=large] .moment-short .moment-context{font-size:16px}
+html[data-size=large] .local-ai-label{font-size:13px}
+.study-content .study-title{margin-bottom:8px}
+.study-content .moment-context{font-size:14px;line-height:1.65}
+.study-content .study-limit,.study-content .moment-editorial{font-size:12px;color:var(--muted);line-height:1.55;margin:10px 0}
+.study-content .study-quote p{margin-bottom:10px}
+.study-quote sup{font:11px var(--font);color:var(--muted);vertical-align:super}
+.study-result{padding-top:14px;margin-top:14px}
+.study-result .study-result-text{font:17px/1.55 Georgia,serif;margin:0 0 7px}
+.study-content .text-link{display:inline-flex;align-items:center;min-height:44px;font-size:13px;text-align:left}
+html[data-size=large] .study-content :is(.moment-context,.text-link){font-size:16px}
+html[data-size=large] .study-content :is(.study-limit,.moment-editorial){font-size:14px}
+.moment-preview .button{margin-top:15px;width:100%}
+@keyframes donkey-pop{from{opacity:0;transform:translateY(9px) scale(.75) rotate(-6deg)}to{opacity:1;transform:none}}
+@keyframes message-write-in{from{opacity:0;transform:translateY(5px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes moment-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.feelings-panel #feelings-status:empty{display:none}
+.feelings-panel #feelings-status{flex:0 0 auto;align-self:center;max-width:100%;margin:0;padding:4px 10px;border-radius:12px;background:var(--surface);font-size:12px}
+.feelings-related>summary{cursor:pointer;font-size:14px;color:var(--ink);padding:14px 0;min-height:44px;line-height:1.5}
+.moment-actions,.feelings-result-actions{display:flex;flex-wrap:wrap;gap:4px 20px}
+.moment-actions{margin-top:10px}
+.moment-actions .text-link,.feelings-result-actions .text-link{font-size:13px;min-height:44px;display:flex;align-items:center;text-align:left;margin:0}
+.feelings-result{margin:0 0 20px}
+.feelings-result>.small-copy{font-size:14px;line-height:1.65;margin:0 0 6px}
+.feelings-related p{white-space:pre-wrap;overflow-wrap:anywhere}
+html:root[data-size=large] body .feelings-panel .chat-composer textarea{font-size:18px}
+html[data-size=large] .chat-welcome .chat-bubble{font-size:16px}
+html[data-size=large] .chat-welcome .chat-method,html[data-size=large] .chat-suggestions button{font-size:14px}
+html[data-size=large] .recommendation :is(.step-support,.step-options)>summary{font-size:16px}
+html[data-size=large] .moment-actions .text-link{font-size:16px}
+html[data-size=large] .moment-depth>summary,html[data-size=large] .moment-depth p,html[data-size=large] .moment-response,html[data-size=large] .moment-support{font-size:16px}
+html[data-size=large] .moment-next-step :is(.moment-step-title,.moment-practice){font-size:16px}
+html[data-size=large] .moment-next-step .moment-editorial{font-size:13px}
+@media(max-width:520px){.moment-preview{padding:15px}.moment-preview blockquote{font-size:19px}.donkey-guide{flex-basis:46px;width:46px;height:46px;border-radius:15px}.donkey-pop{width:38px;height:38px}.chat-bubble{max-width:calc(100% - 52px)}}
+@media(max-height:650px){body.chat-screen{--chat-start-gap:16px}.chat-welcome{margin-bottom:12px}.chat-bubble{padding-block:10px}}
+/* The conversation sits on calm solid ground: no grain or wash behind messages. */
+body.chat-screen{--chat-gutter:max(16px,env(safe-area-inset-left),env(safe-area-inset-right));--chat-top-space:max(12px,calc(var(--screen-safe-top) + 8px));--chat-bottom-space:max(var(--screen-bottom-clearance),10px);position:fixed;top:var(--app-top,0px);left:0;right:0;width:100%;background:var(--bg)!important;overscroll-behavior:none}
+/* The navigation dock joins the conversation, sitting below the composer so the
+   way back to Home is always one tap away. Everything else the sidebar carries
+   stays out of the chat. While the keyboard is up the dock steps aside instead,
+   which is both the platform's convention and the original behaviour here: the
+   composer is all you need mid-sentence, and that space is worth more than a
+   second route to a screen you are not leaving. */
+body.chat-screen .sidebar{display:block!important;background:transparent;border:0;box-shadow:none;pointer-events:none}
+body.chat-screen .sidebar :is(.brand,.workspace-label,.theme-toggle,.settings-link,.sidebar-bottom,.profile){display:none!important}
+body.chat-screen .sidebar nav{pointer-events:auto;bottom:max(10px,var(--steady-safe-bottom,env(safe-area-inset-bottom)))}
+body.chat-screen .screen-header{display:none!important}
+.chat-send:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+:root[data-theme=dark] .chat-composer{box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 24px rgba(0,0,0,.3)}
+body.chat-screen .app-content{display:flex;flex-direction:column;overflow:hidden!important;scroll-padding:0}
+body.chat-screen .main-shell{display:flex;flex:1;min-height:0;overflow:hidden}
+/* The transcript reaches both screen edges. Safe-area offsets belong to the
+   floating controls and scroll padding, never to a full-width header/footer. */
+body.chat-screen .main-shell main,html[data-native-tabs=true] body.chat-screen .main-shell main{display:flex;flex:1;flex-direction:column;box-sizing:border-box;width:100%;min-height:0;margin:0 auto;padding:0 var(--chat-gutter)!important;overflow:hidden}
+/* With the keyboard up the dock is hidden, so the composer only needs the
+   keyboard's own edge. Nothing is left underneath to clear. */
+html[data-keyboard-open=true] body.chat-screen{--chat-bottom-space:8px}
+/* Keep the document's clipping edge below the keyboard too: the native view
+   supplies full height even when WebKit reports a shorter layout viewport. */
+html[data-native-app=ios][data-keyboard-open=true]:has(body.chat-screen){height:var(--app-height,100dvh)}
+/* The iOS build owns the input control. Keep the transcript clear of its
+   native field, but never draw a second web composer underneath it. */
+html[data-native-composer=true] body.chat-screen .chat-input-area{display:none!important}
+/* The native field is 54px high, 8px above the keyboard or tab bar. Reserve
+   one 12px reading gap above it; the keyboard already owns its safe area. */
+html[data-native-composer=true] body.chat-screen .chat-scroll{padding-bottom:calc(var(--chat-bottom-space) + 74px + var(--keyboard-overlap,0px));scroll-padding-bottom:calc(var(--chat-bottom-space) + 74px + var(--keyboard-overlap,0px))}
+html[data-native-composer=true][data-keyboard-open=true] body.chat-screen{--chat-bottom-space:0px}
+html[data-keyboard-open=true] .chat-composer{margin-bottom:0}
+html[data-keyboard-open=true] .chat-suggestions{display:none}
+html[data-keyboard-open=true] .feelings-panel #feelings-status{order:-1}
+/* Typing gives the transcript the room occupied by the introductory portrait
+   and copy. Restore them without an entrance animation when the keyboard goes. */
+html[data-keyboard-open=true] body.chat-screen .chat-welcome{display:none}
+html[data-keyboard-open=true] body.chat-screen .chat-scroll{padding-top:calc(var(--chat-top-space) + 12px)}
+
+/* --- Burden's animals -------------------------------------------------------
+   One shared set of beats for every animal. An animal differs in manner, not in
+   kind, so nothing here can drift into bouncing or flashing. The sizes come from
+   the module as --animal-lift / --animal-nudge / --animal-glance, which is what
+   makes Scout read as watching and Sage as holding still without any of them
+   needing a rule of their own.
+
+   These animate the individual `translate` and `scale` properties rather than
+   `transform`, because the expression poses above already own `transform` and an
+   animation on it would silently overwrite the whole stance library.
+
+   Reduce Motion needs no rule here: branding.css already stops every animation
+   and transition under prefers-reduced-motion, and the handover falls back to a
+   plain swap in JavaScript, so the animal still changes -- it just does not move. */
+.donkey-guide[data-animal]{--animal-lift:1px;--animal-nudge:2px;--animal-glance:0px}
+.donkey-guide[data-animal] img{transition:translate .32s ease,scale .32s ease,opacity .18s ease}
+
+/* Idle. Each animal breathes in its own way, and each is still for most of its
+   cycle: the long flat runs are the point. An animal that never stops moving
+   stops being read, so the movement is a small event in a quiet loop rather than
+   a drift that never settles.
+
+   These move by whole pixels and never rotate or fade. The painted portraits
+   retain their smooth edges while the motion remains subtle. */
+@keyframes animal-idle-burden{
+  /* Burden, the donkey: a slow, deep breath, and the longest rest of the four. */
+  0%,58%{translate:0 0}
+  72%{translate:0 -1px}
+  86%,100%{translate:0 0}
+}
+@keyframes animal-idle-sage{
+  /* Sage, the owl: almost motionless. She looks rather than moves, so her only
+     idle is a single small settle, late in a long cycle. */
+  0%,76%{translate:0 0}
+  88%{translate:0 1px}
+  100%{translate:0 0}
+}
+@keyframes animal-idle-scout{
+  /* Scout, the fox: alert. A small bounce, then a glance to one side, because
+     watching is what she is here to do. Still for half the cycle. */
+  0%,46%{translate:0 0}
+  58%{translate:0 -1px}
+  70%{translate:1px 0}
+  82%,100%{translate:0 0}
+}
+@keyframes animal-idle-steady{
+  /* Steady, the tortoise: the slowest and the smallest. An unhurried animal
+     that fidgeted would contradict the thing it is here to say. */
+  0%,68%{translate:0 0}
+  80%{translate:0 -1px}
+  92%,100%{translate:0 0}
+}
+/* Generic fallback idle for any helper without its own rule above. Whole
+   pixels only, still for most of the cycle, like every other animal idle. */
+@keyframes animal-breathe{
+  0%,62%{translate:0 0}
+  76%{translate:0 -1px}
+  90%,100%{translate:0 0}
+}
+.donkey-guide[data-animal-state="idle"] img{animation:animal-breathe 5.6s ease-in-out infinite}
+.donkey-guide[data-animal="donkey"][data-animal-state="idle"] img{animation:animal-idle-burden 7.2s ease-in-out infinite}
+.donkey-guide[data-animal="owl"][data-animal-state="idle"] img{animation:animal-idle-sage 11s ease-in-out infinite}
+.donkey-guide[data-animal="fox"][data-animal-state="idle"] img{animation:animal-idle-scout 5.4s ease-in-out infinite}
+.donkey-guide[data-animal="tortoise"][data-animal-state="idle"] img{animation:animal-idle-steady 9.6s ease-in-out infinite}
+
+/* Thinking: down and very slightly in. Only Scout moves sideways. */
+@keyframes animal-think{0%,100%{translate:0 0;scale:1}50%{translate:calc(1 * var(--animal-glance)) var(--animal-lift);scale:.985}}
+.donkey-guide[data-animal-state="thinking"] img{animation:animal-think 2.8s ease-in-out infinite}
+
+/* Ready: one small acknowledgement, then still. Played once, never looped. */
+@keyframes animal-ready{0%{translate:0 var(--animal-lift);scale:.99}40%{translate:0 calc(-2 * var(--animal-lift));scale:1.015}100%{translate:0 0;scale:1}}
+.donkey-guide[data-animal-state="ready"] img{animation:animal-ready .44s cubic-bezier(.2,.8,.2,1)}
+
+/* The handover: whoever was here looks aside and steps back, and the one taking
+   over arrives. Deliberately brief. This is a hint about who is helping, and a
+   hint that takes a second to land has stopped being a hint. */
+@keyframes animal-step-aside{0%{translate:0 0;opacity:1}100%{translate:calc(-1 * var(--animal-nudge)) 0;opacity:.25}}
+@keyframes animal-arrive{0%{translate:calc(1 * var(--animal-nudge)) 0;opacity:.2}100%{translate:0 0;opacity:1}}
+.donkey-guide.is-handover img{animation:animal-step-aside .16s ease-in forwards}
+.donkey-guide.is-handover-next img{animation:animal-arrive .2s ease-out forwards}
+/* Every donkey mood shares the one dark tile. */
+:root[data-theme=dark] .donkey-guide[data-load="carrying"],:root[data-theme=dark] .donkey-guide[data-load="lighter"]{background:linear-gradient(145deg,var(--tile-from),var(--tile-to));box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.08)}

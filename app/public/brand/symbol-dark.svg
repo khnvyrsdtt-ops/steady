@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none">
+  <title>Steady</title>
+  <defs>
+    <linearGradient id="steady-glass-a" x1="0" y1="47" x2="0" y2="123" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#96a9e7"/>
+      <stop offset=".5" stop-color="#5574d8"/>
+      <stop offset="1" stop-color="#4159a6"/>
+    </linearGradient>
+    <linearGradient id="steady-glass-b" x1="0" y1="47" x2="0" y2="123" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9bcdab"/>
+      <stop offset=".5" stop-color="#5eae78"/>
+      <stop offset="1" stop-color="#48865c"/>
+    </linearGradient>
+    <linearGradient id="steady-glass-c" x1="0" y1="133" x2="0" y2="209" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#e2c799"/>
+      <stop offset=".5" stop-color="#d0a45a"/>
+      <stop offset="1" stop-color="#a07e45"/>
+    </linearGradient>
+    <linearGradient id="steady-glass-d" x1="0" y1="133" x2="0" y2="209" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#dda3af"/>
+      <stop offset=".5" stop-color="#c86a7e"/>
+      <stop offset="1" stop-color="#9a5261"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" fill="#000000"/>
+  <circle cx="85" cy="85" r="38" fill="url(#steady-glass-a)"/>
+  <circle cx="171" cy="85" r="38" fill="url(#steady-glass-b)"/>
+  <circle cx="85" cy="171" r="38" fill="url(#steady-glass-c)"/>
+  <circle cx="171" cy="171" r="38" fill="url(#steady-glass-d)"/>
+</svg>

@@ -1,0 +1,53 @@
+/* Reflect's linked pages: day-first records and one useful choice at a time. */
+.task-removal{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:48px;margin-top:8px;color:var(--muted);font-size:14px}
+.task-removal .text-link{min-height:44px;padding:8px 0}
+html[data-size=large] .task-removal{font-size:17px}
+.reflection-card.reflection-finished>:is(.card-heading,h3,.card-description,.reflection-choices,.optional-write,.finish-day,.reflection-bottom,.scripture-day-summary,.scripture-direction-resume){display:none}
+.reflection-card .reflection-completion h3{margin:0;font-size:24px;line-height:1.4;letter-spacing:-.4px}
+.reflection-card .reflection-completion p{max-width:42ch;margin:12px 0 22px;line-height:1.75}
+.reflection-card .reflection-completion .button{display:flex;width:fit-content;min-height:48px}
+.reflection-card .reflection-edit{display:flex;align-items:center;min-height:44px;margin-top:8px;color:var(--muted);font-size:14px}
+.reflection-card .optional-write>summary::before{content:none}
+.reflection-card .optional-write>summary span{margin-left:auto;font-size:12px;line-height:1.5}
+.reflection-card .reflection-bottom{font-size:13px;line-height:1.6;color:var(--muted)}
+html[data-size=large] .reflection-card .reflection-completion h3{font-size:28px}
+html[data-size=large] .reflection-card .reflection-edit{font-size:17px}
+html[data-size=large] .reflection-card .reflection-bottom{font-size:16px}
+html[data-size=large] .reflection-card .optional-write>summary span{font-size:13px}
+html[data-font=dyslexic] .reflection-card .reflection-completion h3{font-family:var(--font);letter-spacing:normal}
+.record-index .progress-explainer{margin:0;color:var(--muted);max-width:54ch;line-height:1.65}
+.record-index #progress-days{margin-top:14px}
+.record-index .history-entry{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 16px;padding:16px 0;min-height:64px;text-decoration:none}
+.record-index .history-entry strong{grid-column:1;line-height:1.5}
+.record-index .history-entry span{grid-column:1;text-align:left;color:var(--muted);font-size:13px;line-height:1.6}
+.record-index .history-entry::after{grid-column:2;grid-row:1/3;align-self:center}
+.record-index .history-entry:last-child{border-bottom:0}
+.record-index #more-history{display:flex;align-items:center;min-height:44px;margin-top:8px}
+.record-overview,.record-details{margin-top:20px;border-top:1px solid var(--line);padding-top:8px}
+.reflection-card .optional-write>summary,.record-overview>summary,.record-details>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;padding:12px 0;color:var(--muted);font-size:14px;line-height:1.6;list-style:none;cursor:pointer}
+.reflection-card .optional-write>summary::-webkit-details-marker,.record-overview>summary::-webkit-details-marker,.record-details>summary::-webkit-details-marker{display:none}
+.reflection-card .optional-write>summary::marker,.record-overview>summary::marker,.record-details>summary::marker{content:''}
+.reflection-card .optional-write>summary::after,.record-overview>summary::after,.record-details>summary::after{content:'+';flex-shrink:0;font-size:19px;line-height:1;color:var(--gold)}
+.reflection-card .optional-write[open]>summary::after,.record-overview[open]>summary::after,.record-details[open]>summary::after{content:'−'}
+.reflection-card .optional-write>summary:focus-visible,.record-overview>summary:focus-visible,.record-details>summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.record-overview .progress-totals{gap:12px;margin:12px 0;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr))}
+.record-overview .progress-totals>div{padding:0;background:none;border-radius:0}
+.record-overview .progress-totals strong{font-size:24px}
+.record-overview #useful-summary{margin:12px 0 0;line-height:1.6}
+.day-record>.record-date{max-width:30ch;margin:0;font-size:22px;line-height:1.45;letter-spacing:-.3px}
+.day-record>.record-section:first-of-type{border-top:0;margin-top:22px;padding-top:0}
+.day-record .record-section{margin-top:18px;padding-top:16px}
+.day-record .record-section h2{font-size:15px;line-height:1.5;margin:0 0 8px;letter-spacing:0;color:var(--muted)}
+.day-record .record-text{line-height:1.75}
+.day-record .record-section>.small-copy{margin:0 0 8px;line-height:1.6}
+.day-record .record-detail-content>.record-section:first-child{margin-top:8px;padding-top:0;border-top:0}
+.day-record>.small-copy{margin:18px 0 0;line-height:1.7}
+.reflection-card .progress-link{width:100%;justify-content:space-between;margin:0;padding:12px 0;min-height:48px;border-top:1px solid var(--line);border-radius:0;font-size:14px;text-decoration:none}
+.reflection-card .progress-link{margin-top:18px}
+.reflection-card .progress-link::after{content:'→';color:var(--muted)}
+html[data-size=large] :is(.record-overview>summary,.record-details>summary){font-size:18px}
+html[data-size=large] :is(.record-index .history-entry span){font-size:16px}
+html[data-spacing=roomy] :is(.record-text){line-height:1.9}
+html[data-size=large] .day-record .record-section h2{font-size:17px}
+html[data-font=dyslexic] .day-record>.record-date{letter-spacing:normal;font-family:var(--font);line-height:1.6}
+@media(max-width:380px){.day-record>.record-date{font-size:20px}.record-index .history-entry{column-gap:10px}}

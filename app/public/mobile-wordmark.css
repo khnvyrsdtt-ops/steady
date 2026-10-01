@@ -1,0 +1,45 @@
+/* The name itself carries the Home header; no icon competes with it. */
+@media (max-width:650px) {
+  .sidebar .brand {
+    align-items:center;
+    gap:0;
+  }
+
+  .sidebar .brand .brand-wordmark {
+    flex:0 0 auto;
+    font-size:28px;
+    font-weight:620;
+    letter-spacing:-.035em;
+    line-height:1.2;
+    white-space:nowrap;
+    transform:none;
+  }
+
+  html[data-font=system] .sidebar .brand .brand-wordmark,
+  html[data-font=serif] .sidebar .brand .brand-wordmark {
+    font-family:var(--font);
+    letter-spacing:-.02em;
+  }
+
+  html[data-font=dyslexic] .sidebar .brand .brand-wordmark {
+    font-size:24px;
+    font-weight:400;
+    letter-spacing:.025em;
+    line-height:1.4;
+  }
+
+  html[data-size=large] .sidebar .brand .brand-wordmark {
+    font-size:30px;
+  }
+
+  html[data-size=large][data-font=dyslexic] .sidebar .brand .brand-wordmark {
+    font-size:26px;
+  }
+}
+
+@media (max-width:360px) {
+  .sidebar .brand .brand-wordmark {font-size:26px}
+  html[data-font=dyslexic] .sidebar .brand .brand-wordmark {font-size:22px}
+  html[data-size=large] .sidebar .brand .brand-wordmark {font-size:28px}
+  html[data-size=large][data-font=dyslexic] .sidebar .brand .brand-wordmark {font-size:24px}
+}

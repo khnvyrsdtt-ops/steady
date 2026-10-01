@@ -1,0 +1,74 @@
+/* Preferences are grouped by purpose; daily choices stay with their step. */
+.settings-link{order:2;display:grid;place-items:center;margin-left:8px}
+.settings-link svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+.sidebar .brand{margin-right:auto}
+.sidebar .theme-toggle{order:1}
+.sidebar nav{order:3}
+.settings-page{--settings-chevron:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%235d646c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 8 4 4 4-4'/%3E%3C/svg%3E");max-width:704px;margin:0 auto;padding:8px 28px var(--screen-bottom-clearance,32px)}
+html[data-theme=dark] .settings-page{--settings-chevron:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23a0a0a0' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 8 4 4 4-4'/%3E%3C/svg%3E")}
+.settings-page[hidden],.main-shell[hidden]{display:none!important}
+/* Settings keeps the dock. It is an ordinary screen reached from Home, not a
+   modal, and the dock is how the reader leaves anywhere -- hiding it here left
+   someone who opened Settings from a deeper screen with only a Back pill. */
+.settings-card{border-radius:18px;padding:20px}
+.settings-group{margin:0;min-width:0}
+.settings-group+.settings-group{margin-top:20px}
+.settings-group-title{font:600 15px/1.5 var(--font);color:var(--ink);margin:0 0 8px}
+.settings-group>p{font-size:13px;line-height:1.7;color:var(--muted)}
+.settings-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,210px);align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid var(--line)}
+.settings-row:last-child{border-bottom:0}
+.settings-advanced{margin-top:4px}
+.settings-advanced>summary{min-height:44px;display:flex;align-items:center;color:var(--forest);font-size:14px;font-weight:600;cursor:pointer;list-style:none}
+.settings-advanced>summary::-webkit-details-marker{display:none}
+.settings-advanced>summary::after{content:'⌄';margin-left:auto;font-size:20px;font-weight:400;transition:transform var(--motion-fast) ease}
+.settings-advanced[open]>summary::after{transform:rotate(180deg)}
+.settings-advanced>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.settings-row>*{min-width:0}
+.settings-row label,.settings-row h2{font-size:15px;font-weight:500;line-height:1.4;color:var(--ink);margin:0}
+.settings-help-note{font-size:12px;line-height:1.55;color:var(--muted);margin:5px 0 10px;max-width:48ch}
+.settings-row p{font-size:12px;color:var(--muted);line-height:1.6;margin:6px 0 0;max-width:28ch}
+/* Keep the supporting note below both controls instead of narrowing its text. */
+#haptics-preference{row-gap:0}
+#haptics-preference>div{display:contents}
+#haptics-preference>div>label{grid-column:1;grid-row:1}
+#haptics-preference>select{grid-column:2;grid-row:1}
+#haptics-preference>div>p{grid-column:1/-1;grid-row:2;max-width:none;margin:2px 0 0}
+.settings-row select{appearance:none;-webkit-appearance:none;font:400 16px/1.5 var(--font);color:var(--forest);border-radius:8px;min-height:44px;width:100%;max-width:100%;min-width:0;padding:10px 26px 10px 0;text-align:right;text-align-last:right;cursor:pointer}
+:root body .settings-page .settings-row select{background:var(--settings-chevron) no-repeat right center/20px 20px;background-color:transparent;border:0;box-shadow:none}
+.settings-row select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.local-badge{white-space:nowrap;font-size:11px;color:var(--muted);background:var(--soft);border-radius:20px;padding:6px 10px}
+.privacy-row{border-bottom:0}
+.privacy-choice{display:flex;align-items:flex-start;gap:12px;font-size:14px;line-height:1.6;padding-block:12px}
+.privacy-choice input{appearance:none;-webkit-appearance:none;width:51px;height:31px;margin:2px 0 0;padding:0;border-radius:16px;background:#b7bdc5;cursor:pointer;flex-shrink:0;position:relative;transition:background-color var(--motion-fast) ease}
+:root[data-theme=dark] .privacy-choice input{background:#454c55}
+.privacy-choice input::after{content:'';position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#e0e4e9;box-shadow:0 2px 6px rgba(0,0,0,.2);transition:transform var(--motion-fast) var(--motion-ease)}
+.privacy-choice input:checked,:root[data-theme=dark] .privacy-choice input:checked{background:var(--brand-blue)}
+.privacy-choice input:checked::after{transform:translateX(20px)}
+.settings-background-choice{align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-size:15px;font-weight:500;line-height:1.4}
+.settings-background-choice>span{min-width:0}
+.settings-background-choice small{display:block;margin-top:4px;font-size:12px;font-weight:400;line-height:1.6;color:var(--muted)}
+.settings-background-choice input{margin:0}
+.settings-background-choice input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.settings-more{display:flex;flex-wrap:wrap;gap:4px 24px}
+.settings-more>.settings-group-title{flex-basis:100%}
+.settings-more>.text-link{margin:0}
+.settings-status{font-size:13px;color:var(--muted);margin:14px 0 0}
+.settings-status:empty{display:none}
+@media(max-width:650px){.settings-page{padding:0 18px var(--screen-bottom-clearance,28px)}}
+@media(max-width:380px){.settings-row{grid-template-columns:minmax(0,1fr);gap:4px}.settings-row select{text-align:left;text-align-last:left}#haptics-preference>select{grid-column:1;grid-row:2}#haptics-preference>div>p{grid-row:3}}
+
+/* Reading preferences apply to content and controls in every route. */
+html[data-font=system]{--font:system-ui,-apple-system,sans-serif}
+html[data-font=serif]{--font:Georgia,'Times New Roman',serif}
+html[data-font=system] :is(h1,h2,h3),html[data-font=serif] :is(h1,h2,h3){font-family:var(--font)}
+@font-face{font-family:OpenDyslexic;src:url('./fonts/opendyslexic-regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:OpenDyslexic;src:url('./fonts/opendyslexic-bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+html[data-font=dyslexic]{--font:OpenDyslexic,Arial,sans-serif}
+html[data-font=dyslexic] :is(body,button,input,textarea,select,h1,h2,h3,em,blockquote){font-family:var(--font);letter-spacing:normal;font-style:normal;line-height:1.6}
+html[data-font=dyslexic] .settings-row,html[data-size=large] .settings-row{grid-template-columns:minmax(0,1fr);gap:4px}
+html[data-font=dyslexic] .settings-row select,html[data-size=large] .settings-row select{max-width:100%;min-width:0;text-align:left;text-align-last:left}
+html:is([data-font=dyslexic],[data-size=large]) #haptics-preference>select{grid-column:1;grid-row:2}
+html:is([data-font=dyslexic],[data-size=large]) #haptics-preference>div>p{grid-row:3}
+html[data-font=dyslexic] .need-grid button{white-space:normal}
+html[data-size=large] :is(.settings-group-title,.privacy-choice){font-size:17px}
+@media(forced-colors:active){:root body .settings-page .settings-row select{appearance:auto;-webkit-appearance:auto;background:none;color:ButtonText}}

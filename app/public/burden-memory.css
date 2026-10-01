@@ -1,0 +1,46 @@
+/* Memory shares the app's plain reading surfaces and comfortable touch targets. */
+.burden-memory-panel .memory-intro{margin:0 0 22px;color:var(--muted);font-size:16px;line-height:1.6}
+.memory-preference{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.memory-preference-copy{flex:1;min-width:0}
+.memory-preference label{display:block;color:var(--ink);font-size:16px;font-weight:600;line-height:1.45}
+.memory-preference-copy p{margin:6px 0 0;font-size:14px;line-height:1.6;color:var(--muted)}
+.memory-preference .memory-switch-target{display:grid;place-items:center;flex:0 0 51px;min-height:44px;cursor:pointer}
+.memory-toggle{appearance:none;-webkit-appearance:none;position:relative;flex:0 0 51px;width:51px;height:31px;min-height:31px;margin:0;padding:0;border:0;border-radius:18px;background:var(--line2);cursor:pointer;transition:background-color var(--motion-fast) ease}
+.memory-toggle::after{content:'';position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.18);transition:transform var(--motion-fast) ease}
+.memory-toggle:checked{background:var(--forest)}
+.memory-toggle:checked::after{transform:translateX(20px)}
+.memory-toggle:disabled{opacity:.5;cursor:default}
+.memory-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.burden-memory-panel .memory-supporting{margin:10px 0 0;font-size:13px;line-height:1.6;color:var(--muted)}
+.memory-section{margin-top:26px;padding-top:22px;border-top:1px solid var(--line);min-width:0}
+.burden-memory-panel .memory-section>h2{margin:0 0 8px;font-size:17px;font-weight:600;line-height:1.45;letter-spacing:0;hyphens:none}
+.memory-section>h2:focus{outline:none}
+.burden-memory-panel .memory-storage{margin:0;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.burden-memory-panel .memory-empty{margin:18px 0 0;color:var(--muted);font-size:15px;line-height:1.6}
+.memory-notes{list-style:none;margin:16px 0 0;padding:0}
+.memory-note{display:flex;align-items:flex-start;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.memory-note:last-child{border-bottom:0}
+.memory-note-text{flex:1;min-width:0;margin:8px 0;font-size:16px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+.burden-memory-panel .memory-forget{flex-shrink:0;min-height:44px;padding:8px 0;color:var(--gold);font-size:14px}
+.burden-memory-panel .memory-forget-all{min-height:44px;margin-top:8px;color:var(--gold)}
+.memory-confirm{margin-top:12px;padding:16px;border-radius:14px;background:var(--soft)}
+.burden-memory-panel .memory-confirm h3{margin:0 0 8px;font-size:16px;line-height:1.5;letter-spacing:0}
+.memory-confirm p{margin:0;font-size:14px;line-height:1.6;color:var(--muted)}
+.memory-confirm-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.memory-confirm-actions .button{flex:1 1 120px;min-height:44px;justify-content:center;font-size:15px}
+:root body .memory-confirm-actions .memory-confirm-forget{background:var(--forest);color:var(--bg);border:0}
+.memory-status{margin:12px 0 0;color:var(--muted);font-size:14px;line-height:1.6}
+.memory-status:empty{display:none}
+.burden-memory-panel [hidden]{display:none!important}
+.memory-passages>.small-copy{margin:0}
+.memory-passages .saved-passages-list{margin:14px 0}
+.memory-passages .saved-passage-card{padding:14px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+.memory-passages .saved-passages-list>li:last-child .saved-passage-card{border-bottom:0}
+.memory-passages .saved-passage-heading strong{font-size:16px}
+.memory-passages .saved-passage-text{font-size:15px;line-height:1.6}
+.memory-passages .saved-passage-card:active{transform:none}
+html[data-size=large] :is(.memory-preference label,.memory-note-text){font-size:18px}
+html[data-size=large] :is(.memory-preference-copy p,.burden-memory-panel .memory-supporting,.memory-storage,.memory-status,.memory-confirm p){font-size:16px}
+html[data-size=large] .burden-memory-panel .memory-section>h2{font-size:20px}
+@media(max-width:380px){.memory-preference{gap:12px}.memory-note{display:block}.memory-note-text{margin:0}.burden-memory-panel .memory-forget{margin-top:4px}.memory-section{margin-top:22px;padding-top:18px}}
+@media(forced-colors:active){.memory-toggle{appearance:auto;-webkit-appearance:auto}.memory-toggle::after{content:none}}

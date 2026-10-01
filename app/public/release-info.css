@@ -1,0 +1,14 @@
+.entry-tools{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+.entry-tools>summary{cursor:pointer;font:600 14px/1.6 var(--font);color:var(--ink);min-height:44px;align-content:center}
+.entry-tool-actions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.entry-tools button{min-height:44px}
+.entry-tools .erase-entries{color:var(--muted);text-align:left;line-height:1.6}
+.entry-tools .backup-copy{width:100%;min-height:160px;max-height:280px;resize:vertical;font:12px/1.5 monospace;color:var(--ink);background:var(--soft);padding:12px;border:1px solid var(--line);border-radius:10px}
+.entry-tools [role=status]:empty{display:none}
+.privacy-policy{max-width:65ch}
+.privacy-policy h2{margin-top:18px}
+.privacy-policy h3{font:600 17px/1.5 var(--font);margin:24px 0 8px}
+.privacy-policy p{font:15px/1.8 var(--font);color:var(--text);overflow-wrap:anywhere}
+.published-privacy{display:block!important;width:auto!important;max-width:720px;margin:0 auto;padding:32px 24px 60px}
+body[data-privacy-page=true]{display:block;min-height:100vh}
+html[data-size=large] .privacy-policy p{font-size:18px}

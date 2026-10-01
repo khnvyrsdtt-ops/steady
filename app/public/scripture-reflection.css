@@ -1,0 +1,15 @@
+.scripture-reflect-start{display:flex;width:fit-content;margin-top:20px;max-width:100%;white-space:normal}
+.scripture-response .reflection-reference{color:var(--gold);font-size:13px;margin:14px 0 22px}
+.scripture-response-choices{display:grid;gap:10px;margin:22px 0 8px}
+.scripture-response-choices .answer{font-size:15px;line-height:1.6;min-height:52px}
+.scripture-response-choices .answer[aria-pressed=true]{border-color:var(--gold);background:var(--forest-soft)}
+.scripture-response .response-copy,.scripture-response .response-prayer{font-size:17px;line-height:1.8;color:var(--ink);margin:18px 0 22px}
+.scripture-response .response-prayer{font-family:Georgia,serif;font-size:22px;line-height:1.7}
+.scripture-response .response-status{margin:0 0 20px}
+.scripture-response-content>.text-link{display:flex;width:fit-content;margin-top:8px}
+.scripture-response-content>.button{margin-top:0}
+.scripture-day-summary{margin:22px 0 16px;padding:16px;gap:12px}
+.scripture-day-summary>span:first-child{min-width:0}
+.scripture-day-summary strong,.scripture-day-summary small{overflow-wrap:anywhere}
+html[data-font=dyslexic] .scripture-response .response-prayer{font-family:var(--font)}
+html[data-size=large] :is(.scripture-response .reflection-reference,.scripture-response-choices .answer){font-size:18px}

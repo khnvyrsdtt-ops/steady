@@ -1,0 +1,187 @@
+/* Current screen layout: continuous canvas, compact reading, quiet surfaces. */
+:root{--page-width:760px;--home-title-size:32px;--page-title-size:24px;--card-title-size:22px;--screen-safe-top:max(var(--steady-safe-top,0px),env(safe-area-inset-top,0px));--screen-bottom-clearance:max(var(--steady-tabbar,0px),var(--steady-safe-bottom,0px),env(safe-area-inset-bottom,0px),var(--navigation-space,0px))}
+:root[data-native-app=ios]{--screen-safe-top:var(--steady-safe-top,0px)}
+:root[data-size=large]{--home-title-size:36px;--page-title-size:28px;--card-title-size:26px}
+html{height:100%;overflow:hidden;background:var(--bg)}
+body{height:var(--app-height,100dvh);min-height:0;margin:0;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.app-content{flex:1;min-height:0;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scroll-padding:16px 0 var(--screen-bottom-clearance)}
+/* Settings scrolls beneath the status bar. Fade the scroll content itself at
+   that edge so there is no separate glass rectangle or visible lower ledge. */
+html[data-native-app=ios] body.settings-open .app-content{-webkit-mask-image:linear-gradient(to bottom,transparent calc(var(--screen-safe-top) + 60px),#000 calc(var(--screen-safe-top) + 78px));mask-image:linear-gradient(to bottom,transparent calc(var(--screen-safe-top) + 60px),#000 calc(var(--screen-safe-top) + 78px))}
+@media(max-width:650px){body:not(.chat-screen) .app-content{padding-top:var(--screen-safe-top)}}
+.sidebar,:root[data-theme=dark] .sidebar{max-width:960px;height:72px;flex-shrink:0;margin:auto;padding:10px 28px}
+.main-shell main,.home-screen .main-shell main{max-width:var(--page-width);padding:4px 28px var(--screen-bottom-clearance)}
+.main-shell,.focused-panel,.settings-page{min-width:0}
+/* Onboarding has no navigation. */
+.onboarding-screen .main-shell main{padding-bottom:28px}
+.storage-status,html[data-native-tabs=true] .storage-status{position:static;inset:auto;transform:none;width:auto;max-width:704px;margin:0 auto 16px;padding:14px 18px;z-index:auto}
+.toast{bottom:calc(var(--screen-bottom-clearance) + 8px);max-width:calc(100vw - 32px);overflow-wrap:anywhere}
+
+/* Content is solid and readable; only the dock uses translucent glass. */
+:root body :is(.focused-panel.card,.focused-panel.scripture-panel,.settings-card,.home-scripture){background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+.focused-panel.card,.focused-panel.scripture-panel{padding:24px}
+.focused-panel :is(h2,h3){margin-top:0;line-height:1.35;letter-spacing:-.5px;color:var(--ink);overflow-wrap:normal;word-break:normal;hyphens:auto}
+.focused-panel :is(p,summary,label,button,a){overflow-wrap:anywhere}
+.focused-panel :is(input:not([type=checkbox]),textarea,select){max-width:100%;min-width:0}
+.focused-panel .card-heading{margin-bottom:16px;align-items:center;gap:12px}
+.focused-panel .card-description{margin:8px 0 0}
+.experience-card>.eyebrow,.scripture-panel>.eyebrow{margin-bottom:14px}
+.focused-panel .button.primary{width:100%;justify-content:center;text-align:center}
+.button{min-height:44px;border-radius:12px;font-size:14px;padding:10px 16px;white-space:normal;box-shadow:none}
+.button.primary{box-shadow:none}
+:root body :is(.chip,.answer,.need-grid button,.reflection-choices button,.settings-row select,.settings-row input,.context-field select,.focused-panel textarea,.button:not(.primary)){background:var(--soft);border-color:var(--line2);box-shadow:none}
+:root body :is(.chip,.answer,.need-grid button,.reflection-choices button)[aria-pressed=true],:root[data-theme=dark] body :is(.chip,.answer,.need-grid button,.reflection-choices button)[aria-pressed=true]{background:var(--forest);color:var(--bg);border-color:var(--forest);box-shadow:none}
+:root body :is(.chip,.answer,.need-grid button,.reflection-choices button)[aria-pressed=true] :is(span,svg),:root[data-theme=dark] body :is(.chip,.answer,.need-grid button,.reflection-choices button)[aria-pressed=true] :is(span,svg){color:inherit}
+:root body .reflection-choices button[aria-pressed=true]::after,:root[data-theme=dark] body .reflection-choices button[aria-pressed=true]::after{color:inherit}
+.text-link,.step-change,.scripture-link{border-radius:9px;text-decoration:none;font-weight:600}
+@media(hover:hover){.text-link:hover,.step-change:hover,.scripture-link:hover{color:var(--ink)}}
+@media(hover:hover){.path-link:hover,.text-link:hover,.step-change:hover{background:var(--soft)}}
+
+/* The existing coast artwork gives Home a clear, quiet starting point. */
+.simple-home{max-width:none;margin:0}
+.simple-home .hub-heading{margin:0}
+.simple-home .hub-heading h1{position:relative;z-index:1;font:600 var(--home-title-size)/1.2 var(--font);letter-spacing:-.7px;margin:10px 0 0;max-width:18ch;text-wrap:balance;color:var(--ink)}
+.hub-heading .eyebrow{position:relative;z-index:1;font-size:10px;letter-spacing:.17em}
+.hub-heading .hub-description{position:relative;z-index:1;margin:11px 0 0;color:var(--text);font-size:15px;line-height:1.5}
+.home-screen .hub-heading{position:relative;isolation:isolate;overflow:hidden;min-height:160px;padding:24px;border:1px solid var(--line);border-radius:20px;background:var(--surface)}
+/* Still air: soft light drifts on its own and leans toward touch. */
+.ambience{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.ambience>span{position:absolute;display:block;transform:translate3d(calc(var(--amb-x,0)*18px),calc(var(--amb-y,0)*14px),0)}
+.ambience>span>span{display:block;border-radius:50%;filter:blur(30px);animation:amb-drift 16s ease-in-out infinite alternate}
+.amb-a{left:0;top:2%}
+.amb-a>span{width:240px;height:170px;background:radial-gradient(closest-side,color-mix(in srgb,var(--gold) 30%,transparent),transparent)}
+.amb-b{right:2%;bottom:4%}
+.amb-b>span{width:200px;height:150px;background:radial-gradient(closest-side,color-mix(in srgb,var(--muted) 18%,transparent),transparent);animation-duration:21s;animation-delay:-7s}
+@keyframes amb-drift{from{transform:translate(0,-8px)}to{transform:translate(10px,8px)}}
+@media(prefers-reduced-motion:reduce){.ambience{display:none}}
+html[data-motion=off] .ambience{display:none}
+@media(prefers-contrast:more),(forced-colors:active),print{.ambience{display:none}}
+/* Contrast keeps the starting action clear; motion is reserved for a press. */
+.home-next:active{filter:brightness(.95)}
+.simple-home .home-scripture{position:relative;margin:0;padding:24px}
+.home-scripture>summary{display:grid;gap:3px;position:relative;min-height:48px;padding:2px 28px 2px 0;cursor:pointer;list-style:none}
+.home-scripture>summary::-webkit-details-marker{display:none}
+.home-scripture>summary::after{content:'+';position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:22px;color:var(--muted)}
+.home-scripture[open]>summary::after{content:'−'}
+.home-scripture>summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.home-scripture-title{font:600 16px/1.45 var(--font);color:var(--ink)}
+.home-scripture-hint{font-size:13px;line-height:1.5;color:var(--muted)}
+.home-scripture-content{padding-top:12px;border-top:1px solid var(--line);margin-top:14px}
+.home-scripture blockquote{font:400 23px/1.5 Georgia,serif;color:var(--ink);margin:14px 0 12px}
+.home-scripture .verse-reference{margin:0 0 2px}
+.home-scripture>.text-link{margin-top:2px}
+.home-passage-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin-top:4px}
+.home-passage-actions .button{min-height:48px;font-size:14px}
+.home-passage-actions .button.primary{background:var(--forest);color:var(--bg);border-color:var(--forest);box-shadow:none}
+.home-next{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;margin:12px 0;padding:14px 24px;border:0;border-radius:16px;background:var(--forest);color:var(--bg);box-shadow:none}
+.home-next .mini-label,.home-next strong{grid-column:1;color:inherit}
+.home-next .mini-label{opacity:.8;font-size:10px}
+.home-next strong{font:600 18px/1.45 var(--font);letter-spacing:-.2px;overflow-wrap:anywhere}
+.home-next-arrow{grid-column:2;grid-row:1/3;align-self:center;font-size:20px;color:inherit}
+.home-return[hidden]{display:none}
+.home-return{display:grid;width:100%;gap:5px;margin:12px 0 0;padding:16px 24px;text-align:left;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
+.home-return-label{font-size:10px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.home-return-title{font-size:17px;line-height:1.4;font-weight:600;overflow-wrap:anywhere}
+.home-return-action{font-size:13px;font-weight:600;color:var(--muted)}
+.home-return:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+html[data-size=large] .home-return-title{font-size:20px}
+html[data-size=large] .home-return-action{font-size:16px}
+.home-next.home-next-optional{padding:14px 24px;min-height:52px;border-radius:16px;background:var(--forest);color:var(--bg);gap:8px 16px}
+.home-next.home-next-optional strong{font-size:18px;font-weight:600;letter-spacing:0}
+.home-next.home-next-optional .home-next-arrow{grid-row:1;font-size:18px}
+.home-next .mini-label[hidden]{display:none}
+html[data-size=large] .home-scripture blockquote{font-size:28px}
+html[data-size=large] .home-next strong{font-size:21px}
+html[data-font=dyslexic] .home-scripture blockquote{font-family:var(--font);font-size:20px;line-height:1.7}
+html[data-font=dyslexic] .home-next strong{letter-spacing:normal;line-height:1.6}
+
+/* Reading, saved records and practical steps share the same rhythm. */
+:root body .scripture-panel blockquote,:root[data-theme=dark] body .scripture-panel blockquote{color:var(--ink);max-width:none}
+:root body .scripture-panel .eyebrow,:root[data-theme=dark] body .scripture-panel .eyebrow{color:var(--gold)}
+.scripture-panel #truth-title{font-size:22px}
+.scripture-response .reflection-reference{margin:12px 0 18px}
+:root .focused-panel :is(.recommendation h3,.scripture-response-content h2){font-size:var(--card-title-size)}
+.completion-next{display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;margin-top:14px}
+.completion-next .text-link{min-height:44px}
+.reflection-card :is(.progress-link,.review-helpful-link){display:flex;width:fit-content;min-height:44px;margin-top:8px;color:var(--ink);font-weight:600}
+.reflection-card .finish-day{max-width:100%;white-space:normal}
+#task-form button,.delete-task{min-width:44px;min-height:44px;flex-shrink:0}
+#task-form{border-radius:12px;background:var(--soft);padding-inline:12px}
+.completed-step{overflow-wrap:anywhere}
+.history-entry{align-items:center;color:var(--text);min-height:60px;gap:12px;transition:background-color var(--motion-fast) ease,transform var(--motion-fast) var(--motion-ease)}
+.history-entry:active{transform:scale(.99)}
+.history-entry::after{content:'→';color:var(--gold);flex-shrink:0}
+@media(hover:hover){.history-entry:hover{color:var(--ink);background:var(--soft)}}
+.history-entry span{flex:1;text-align:right}
+.record-section{border-top:1px solid var(--line);padding-top:18px;margin-top:22px}
+.record-section h2{font-size:17px;margin:0 0 10px}
+.record-text{white-space:pre-wrap;overflow-wrap:anywhere;margin:0;line-height:1.8}
+.record-actions{padding-left:20px;margin:0}
+.record-actions li{padding:5px 0;overflow-wrap:anywhere}
+.day-record>.eyebrow{margin-bottom:12px}
+.day-record>.record-date{font-size:24px}
+.day-record>.text-link{margin-top:18px}
+.scripture-direction .direction-source{margin:0 0 12px;font-size:13px}
+.scripture-direction h2{font-size:var(--card-title-size);margin:12px 0 16px}
+.direction-action-copy{font-size:16px;line-height:1.7;margin:0 0 18px}
+.direction-setup{padding:2px 0 2px 14px;background:transparent;border:0;border-left:2px solid var(--gold);border-radius:0;margin:0 0 18px;box-shadow:none}
+.direction-setup p{font-size:14px;line-height:1.7;margin:8px 0 0}
+.direction-fit,.direction-why,.direction-feedback-more{margin-top:12px}
+.scripture-direction summary{min-height:44px;padding:12px 0;font-size:14px;font-weight:600;cursor:pointer}
+.direction-choice{border:0;padding:12px 0 0;margin:12px 0;min-width:0}
+.direction-choice legend{padding:0}
+.direction-choice .chip{min-height:44px}
+.direction-alternatives{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px}
+.direction-complete{color:var(--text);margin:16px 0 20px}
+.scripture-direction>.button{margin:8px 0 12px}
+.scripture-direction>.text-link{display:flex;width:fit-content}
+.scripture-direction-resume{margin-top:16px}
+html[data-size=large] :is(.record-text,.record-actions,.direction-action-copy,.direction-setup p,.scripture-direction summary,.scripture-direction .direction-source){font-size:18px}
+
+/* Native Settings keeps one explicit return control. */
+.settings-open .sidebar .settings-link{display:none}
+
+/* A single selection follows a drag across the navigation dock. */
+.sidebar nav.has-dock-selection,.sidebar nav.has-dock-selection .nav-item{touch-action:none}
+.sidebar nav.has-dock-selection .nav-item{-webkit-touch-callout:none}
+:root body .sidebar nav.has-dock-selection .nav-item.active{background:transparent;box-shadow:none}
+.dock-selection{position:absolute;left:0;top:0;z-index:0;pointer-events:none;width:var(--dock-selection-width,0px);height:var(--dock-selection-height,0px);transform:translate3d(var(--dock-selection-x,0px),var(--dock-selection-y,0px),0);border:0;border-radius:18px;background:var(--surface);box-shadow:var(--shadow);transition:transform .2s cubic-bezier(.22,1,.36,1),width .2s ease,height .2s ease}
+:root[data-theme=dark] .dock-selection{background:var(--soft);box-shadow:none}
+.sidebar nav.is-dragging .dock-selection{transition:none}
+.sidebar nav.is-dragging .nav-item .nav-label{color:var(--muted);font-weight:500}
+.sidebar nav.is-dragging .nav-item.is-drag-target .nav-label{color:var(--ink);font-weight:700}
+html[data-motion=off] .dock-selection{transition:none}
+@media(prefers-reduced-motion:reduce){.dock-selection{transition:none}}
+@media(prefers-contrast:more),(forced-colors:active){body,html[data-theme=dark] body{background-image:none}}
+
+@media(max-width:650px){
+ .sidebar,:root[data-theme=dark] .sidebar{height:68px;padding:8px 18px}
+ .main-shell main,.home-screen .main-shell main{padding:0 18px var(--screen-bottom-clearance)}
+ .focused-panel.card,.focused-panel.scripture-panel{padding:20px}
+ .home-screen .hub-heading{min-height:150px}
+ .simple-home>:is(.hub-heading,.home-scripture){padding:20px}
+ .simple-home>.home-next{padding:12px 20px;margin:10px 0}
+ .home-scripture blockquote{font-size:22px}
+ .home-passage-actions .button,.scripture-reflect-start,.scripture-response-content>.button{width:100%;justify-content:center}
+ .focused-panel .need-grid button{font-size:15px}
+ .focused-panel :is(input:not([type=checkbox]),textarea,select){font-size:16px}
+}
+@media(max-width:500px){
+ .saved-passages-pagination,.helpful-pages{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .saved-passages-pagination>span,.helpful-pages .helpful-page{grid-column:1/-1;grid-row:1;white-space:normal}
+ .saved-passages-pagination .button,.helpful-pages .button{width:100%;min-width:0;margin:0}
+ html[data-font=dyslexic] .settings-row select,html[data-size=large] .settings-row select{width:100%;max-width:none}
+}
+@media(max-width:380px){
+ .focused-panel .need-grid{grid-template-columns:1fr}
+ .focused-panel .need-grid button{min-height:60px}
+}
+@media(max-width:360px){
+ .sidebar .nav-label{font-size:10px}
+ .focused-panel.card,.focused-panel.scripture-panel{padding:18px}
+ .simple-home>:is(.hub-heading,.home-scripture){padding:18px}
+ .simple-home>.home-next{padding:12px 18px;margin:8px 0}
+ .history-entry span{text-align:left}
+ /* Keep enlarged wide-letter headings readable without stranding punctuation. */
+ :root[data-font=dyslexic][data-size=large]{--card-title-size:26px;--page-title-size:26px}
+}

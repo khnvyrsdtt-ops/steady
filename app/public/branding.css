@@ -1,0 +1,175 @@
+/* The page is true white in light and true black in dark, and surfaces sit a
+   step off it. Steady's four hues are the identity mark and the accents that
+   must be found (--accent); everything else stays neutral so controls stop
+   competing with the content. */
+:root{
+  /* ---- surfaces: one neutral temperature, true white over true black ---- */
+  --bg:#ffffff;--surface:#ffffff;--soft:#f1f2f4;--surface-3:#e6e8eb;--surface-4:#dcdfe3;
+  /* ---- ink: four steps, every one readable on every surface above ---- */
+  --ink:#14171a;--text:#2e3338;--muted:#5d646c;--faint:#646c74;
+  /* ---- edges ---- */
+  --line:#e5e7ea;--line2:#d2d6db;--control-edge:#c3c8ce;
+  /* ---- the four approved hues, identical in both appearances ---- */
+  --brand-blue:#5574d8;--brand-green:#5eae78;--brand-gold:#d0a45a;--brand-rose:#c86a7e;
+  /* The brand blue at a depth that is legible as small text. The mark keeps the
+     pure hue; this is the same hue one step down, so a Scripture reference still
+     reads as Steady blue rather than as a generic grey-blue. */
+  --brand-ink:#4c68c2;--brand-soft:#eef1fb;
+  /* ---- feedback, drawn from the same four hues so nothing foreign appears ---- */
+  --danger:#9c5362;--danger-soft:#fbeef0;
+  --warning:#8a6a37;--warning-soft:#fbf3e5;
+  --success:#3e734f;--success-soft:#e9f3ec;
+  --accent:var(--brand-ink);
+  /* ---- icons and solid fills ---- */
+  --ui-icon:#5d646c;--solid:#23272c;--solid-soft:#eceef0;
+  /* ---- the portrait tile: a quiet neutral lift, not a coloured plate ---- */
+  --tile-from:#eef0f2;--tile-to:#f8f9fa;--tile-edge:#d5d8dc;
+  /* ---- Foundation scenery, on the same ramp as every other surface ---- */
+  --scenery-1:#f1f2f4;--scenery-2:#e5e7ea;--scenery-3:#d2d6db;--scenery-4:#c3c8ce;--scenery-5:#a9b0b7;--scenery-ink:#23272c;
+  /* ---- floating material ---- */
+  --glass:rgba(255,255,255,.82);--glass-edge:var(--line);--glass-shadow:0 3px 14px rgba(20,23,26,.06);--glass-tint:rgba(255,255,255,.5);
+  --dock:rgba(255,255,255,.86);--scrim:rgba(20,23,26,.45);
+  --shadow:0 3px 14px rgba(20,23,26,.06);
+  /* Legacy names, kept so nothing has to be renamed twice. Each one now points at
+     the token that actually holds the value it always meant. */
+  --forest:var(--solid);--forest-soft:var(--solid-soft);--gold:var(--muted);--gold-soft:var(--soft);
+}
+/* Dark is the same mark on a true black page. --faint carries real weight here:
+   on a near-black surface it is the dimmest text in the app, so it is lifted to
+   clear 4.5:1 against --soft, the lightest surface it ever sits on. */
+:root[data-theme=dark]{
+  /* ---- surfaces ---- */
+  --bg:#000000;--surface:#101010;--soft:#1a1a1a;--surface-3:#242424;--surface-4:#2e2e2e;
+  /* ---- ink. --faint is lifted on purpose: on the lightest surface it ever
+     sits on it still clears 4.5:1. Do not darken it. ---- */
+  --ink:#ffffff;--text:#e0e0e0;--muted:#a0a0a0;--faint:#8a8a8a;
+  /* ---- edges ---- */
+  --line:#262626;--line2:#333333;--control-edge:#404040;
+  /* ---- the four approved hues, identical in both appearances ---- */
+  --brand-blue:#5574d8;--brand-green:#5eae78;--brand-gold:#d0a45a;--brand-rose:#c86a7e;
+  --brand-ink:#6a91ff;--brand-soft:#161c33;
+  /* ---- feedback ---- */
+  --danger:#fa849e;--danger-soft:#2a1a1c;
+  --warning:#efbd67;--warning-soft:#2a2317;
+  --success:#6cc88a;--success-soft:#16261c;
+  --accent:var(--brand-ink);
+  /* ---- icons and solid fills ---- */
+  --ui-icon:#d0d0d0;--solid:#ffffff;--solid-soft:#202020;
+  /* ---- the portrait tile ---- */
+  --tile-from:#1c1c1c;--tile-to:#0d0d0d;--tile-edge:#2c2c2c;
+  /* ---- Foundation scenery ---- */
+  --scenery-1:#1a1a1a;--scenery-2:#262626;--scenery-3:#333333;--scenery-4:#404040;--scenery-5:#4a4a4a;--scenery-ink:#f1f2f4;
+  /* ---- floating material ---- */
+  --glass:rgba(16,16,16,.82);--glass-edge:var(--line);--glass-shadow:0 3px 14px rgba(0,0,0,.5);--glass-tint:rgba(22,22,22,.5);
+  --dock:rgba(0,0,0,.86);--scrim:rgba(0,0,0,.6);
+  --shadow:0 3px 14px rgba(0,0,0,.5);
+  --forest:var(--solid);--forest-soft:var(--solid-soft);--gold:var(--muted);--gold-soft:var(--soft);
+}
+
+/* The four-circle tile keeps one square geometry in every context. The mark is
+   sized from the slot the page reserves, and the native mark reads that same
+   slot, so the circles grow with it and stay perfectly round. */
+.steady-symbol{display:inline-block;position:relative;flex:0 0 auto;width:42px;aspect-ratio:1/1;line-height:0;vertical-align:middle}
+.steady-symbol img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain}
+.steady-symbol .symbol-on-dark{display:none}
+:root[data-theme=dark] .steady-symbol .symbol-on-light{display:none}
+:root[data-theme=dark] .steady-symbol .symbol-on-dark{display:block}
+/* On the device the mark is drawn natively, so the slot keeps its exact size --
+   the header does not move by a pixel -- and the picture steps aside. The
+   generated tile carried a white or black field, which is exactly the plate the
+   native mark must not have, so nothing replaces it: the app surface runs
+   continuously behind and around the four circles. */
+.steady-symbol[data-native-mark] img{visibility:hidden}
+.brand-wordmark{position:relative;display:inline-flex;align-items:baseline;font-family:Manrope,'DM Sans',system-ui,sans-serif;font-weight:620;letter-spacing:-.035em;line-height:1;font-feature-settings:'kern' 1;text-rendering:optimizeLegibility}
+.sidebar .brand{gap:0;min-height:52px;letter-spacing:normal;min-width:0}
+/* The Steady mark lives on Home only — never in Reflect, Settings, or Burden. */
+body:not(.home-screen) .sidebar .brand{display:none}
+/* No glass plate behind the mark. There is nothing behind it to refract: the Home
+   page is a flat pale field, so a tinted panel here reads as a white box with a
+   shadow rather than as depth, and its own edge competes with the wordmark. The
+   mark's material is carried by the symbol's own shading instead. Glass stays on
+   the surfaces that genuinely float over moving content — the dock and composer. */
+.sidebar .brand .brand-wordmark{font-size:27px;color:var(--ink)}
+.brand-lockup{display:flex;flex-direction:column;align-items:center;text-align:center}
+.brand-lockup .brand-wordmark{font-size:38px;margin-top:0;padding-left:0}
+.brand-foundation{font:500 9px/1.6 Manrope,system-ui,sans-serif;letter-spacing:.26em;margin-top:10px;padding-left:.26em}
+.welcome-brand{margin:0 0 24px;color:var(--ink)}
+.welcome-brand .steady-symbol{width:58px}
+.welcome-brand .brand-wordmark{font-size:32px;margin-top:0}
+.branded-welcome>h2{font-size:24px;letter-spacing:-.5px}
+.brand-about .welcome-brand{margin-bottom:20px}
+.brand-about .welcome-brand .brand-wordmark{margin-top:0}
+.brand-about .steady-symbol{width:50px}
+.brand-about>h2{font-size:24px}
+/* About is a full page. A second rounded card around the whole document made
+   its edge look like the Settings sheet was still behind it. */
+:root body:not(.chat-screen) .focused-panel.card.brand-about{border:0;border-radius:0;background:transparent;box-shadow:none;padding:0}
+.brand-meaning{margin:20px 0}
+.brand-meaning>div{padding:12px 0;border-top:1px solid var(--line)}
+.brand-meaning dt{font-size:14px;font-weight:600;color:var(--ink)}
+.brand-meaning dd{margin:4px 0 0;font-size:14px;color:var(--muted);line-height:1.65}
+.brand-credit{padding-top:16px;border-top:1px solid var(--line)}
+@media(max-width:650px){.sidebar .brand{gap:12px}.sidebar .steady-symbol{width:40px}.welcome-brand .steady-symbol{width:54px}.brand-about .steady-symbol{width:48px}}
+@media(forced-colors:active){.steady-symbol{forced-color-adjust:none}}
+html[data-font=dyslexic] .brand-wordmark{font-family:var(--font);font-weight:400;letter-spacing:.025em;line-height:1.4}
+
+/* Floating chrome shares one restrained neutral liquid-glass language:
+   see-through surface, blur with saturation, hairline edge. Only the dock,
+   composer and chat header pills float, so only they earn blur. */
+.sidebar nav{position:fixed;inset:auto auto max(12px,var(--steady-safe-bottom,env(safe-area-inset-bottom))) 50%;transform:translateX(-50%);display:flex;width:min(440px,calc(100vw - 24px));min-height:70px;padding:6px;gap:4px;overflow:hidden;isolation:isolate;border:1px solid var(--line);border-radius:24px;background:color-mix(in srgb,var(--surface) 72%,transparent);box-shadow:0 8px 24px rgba(20,23,26,.10),inset 0 1px 0 rgba(255,255,255,.16);backdrop-filter:blur(22px) saturate(1.3);-webkit-backdrop-filter:blur(22px) saturate(1.3);touch-action:pan-x pan-y;scrollbar-width:none}
+:root[data-theme=dark] .sidebar nav{border-color:var(--line);box-shadow:0 8px 24px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.08)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.sidebar nav{background:var(--surface)}}
+.sidebar nav::before,.sidebar nav::after,.sidebar .nav-item::before,.sidebar .nav-item::after{display:none;content:none}
+.sidebar nav::-webkit-scrollbar{display:none}
+.sidebar .nav-item{position:relative;z-index:1;flex:1 1 0;min-width:0;width:0;min-height:56px;height:auto;padding:8px 4px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-radius:18px;color:var(--muted);-webkit-user-select:none;user-select:none;-webkit-user-drag:none;-webkit-tap-highlight-color:transparent;touch-action:pan-x pan-y}
+.sidebar .nav-item.active,:root[data-theme=dark] .sidebar .nav-item.active{background:var(--surface);color:var(--ink);box-shadow:none}
+.sidebar .nav-item:active{transform:none}
+.sidebar .nav-item:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+.sidebar .nav-item svg{width:21px;height:21px;filter:none;transform:none}
+.sidebar .nav-label{display:block;font-size:11px;line-height:1.3;white-space:normal;text-align:center;overflow-wrap:anywhere}
+.sidebar .nav-item.active .nav-label{font-weight:700}
+/* Native iOS owns navigation with its system tab bar. In browser chat, the
+   dock steps aside only while the keyboard is open, leaving room for the composer. */
+html[data-native-app=ios] .sidebar nav,html[data-native-tabs=true] .sidebar nav,html[data-keyboard-open=true] body.chat-screen .sidebar nav{display:none!important}
+@media(hover:hover){.sidebar .nav-item:not(.active):hover{background:var(--soft)}}
+
+/* Shared icon and action colours follow the chosen theme. */
+.steady-icon{display:inline-block;width:20px;height:20px;flex-shrink:0;vertical-align:middle;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.section-icon,.sidebar .nav-item svg,.need-grid button span{color:var(--ui-icon)}
+.section-icon{background:transparent!important}
+.reflection-choices .steady-icon{width:18px;height:18px;color:var(--ui-icon)}
+.reflection-choices button{position:relative;display:flex;align-items:center;justify-content:flex-start;gap:8px;text-align:left}
+.reflection-choices button[aria-pressed=true]::after{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:12px}
+.reflection-choices button>span{min-width:0}
+.delete-task .steady-icon{width:16px;height:16px}
+.task input:checked{background:var(--forest);border-color:var(--forest)}
+.button.primary.completed{border-color:var(--line2);background:var(--forest-soft);color:var(--ink)}
+.toast{background:var(--forest);color:var(--bg);border-color:var(--control-edge);box-shadow:var(--shadow)}
+.storage-status{background:var(--surface);color:var(--ink);border-color:var(--control-edge)}
+::selection{background:var(--forest);color:var(--bg)}
+:is(button,a,input,textarea,select,summary):focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
+
+/* State changes stay immediate; short motion confirms an action. */
+:root{--motion-fast:120ms;--motion-enter:180ms;--motion-ease:cubic-bezier(.2,.8,.2,1)}
+/* One spacing and radius scale for every screen. */
+:root{--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--radius-sm:10px;--radius-md:12px;--radius-lg:18px;--radius-xl:20px;--radius-pill:999px}
+html{scroll-behavior:auto!important}
+/* Settings contains fixed navigation, so its container must stay unanimated. */
+.focused-panel:not([hidden]),#home-hub:not([hidden]){animation:steady-enter var(--motion-enter) var(--motion-ease) both}
+@keyframes steady-enter{from{opacity:.7;transform:translateY(3px)}to{opacity:1;transform:none}}
+:is(.button,.chip,.answer,.need-grid button,.reflection-choices button,.path-link,.theme-toggle,.settings-link,.chat-send,.chat-suggestions button,.home-next){transition:background-color var(--motion-fast) ease,border-color var(--motion-fast) ease,transform var(--motion-fast) var(--motion-ease)}
+:is(.button,.chip,.answer,.need-grid button,.reflection-choices button,.chat-send,.chat-suggestions button,.home-next):active{transform:scale(.985)}
+.chat-send:active{transform:scale(.93)}
+.home-next:active{transform:scale(.99)}
+.sidebar .nav-item{transition:color var(--motion-fast) ease,background-color var(--motion-fast) ease}
+:is(.text-link,.step-change,.scripture-link){transition:opacity var(--motion-fast) ease}
+:is(.text-link,.step-change,.scripture-link):active{opacity:.6}
+.toast{transition:opacity var(--motion-fast) ease,transform var(--motion-enter) var(--motion-ease)}
+@media(prefers-reduced-motion:reduce){html body *,html body *::before,html body *::after{animation:none!important;transition:none!important}}
+html[data-motion=off] body *,html[data-motion=off] body *::before,html[data-motion=off] body *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+.focused-panel[hidden] summary::before{content:none}
+
+/* The wordmark is the product name and the mark beside it is drawn natively on
+   the device. The trademark belongs with the wordmark and nowhere else. */
+.brand-tm{font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:.42em;letter-spacing:0;line-height:1;align-self:flex-start;margin-top:.65em;margin-left:.03em;opacity:.8}

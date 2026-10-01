@@ -1,0 +1,501 @@
+/* Steady coherence pass — one calm, neutral design system.
+   Loaded last so it wins without rewriting history.
+   What it does not do: no navigation, behaviour, content or feature changes;
+   no icon redraws; Burden keeps its helper, identity, Scripture Help,
+   explanation, topics, input, helper selection and Memory. */
+
+:root{
+  --page-gutter:20px;
+  --card-padding:24px;
+  --card-padding-mobile:20px;
+  --radius-card:18px;
+  --radius-control:12px;
+  --control-min:48px;
+  --type-title:22px;
+  --type-body:15px;
+}
+
+/* Calm canvas: solid neutral ground. The legacy warm/green washes made white
+   cards read as floating boxes and fought the dock's own blur. */
+body{
+  background:var(--bg);
+  background-image:none;
+}
+
+/* Shared centred column. One max width, one gutter, safe-area aware. */
+.main-shell main,
+.home-screen .main-shell main,
+.settings-page{
+  margin-left:auto;
+  margin-right:auto;
+}
+.main-shell main,
+.home-screen .main-shell main{
+  max-width:var(--page-width,760px);
+  padding-left:max(var(--page-gutter),env(safe-area-inset-left));
+  padding-right:max(var(--page-gutter),env(safe-area-inset-right));
+}
+.settings-page{
+  padding-left:max(28px,env(safe-area-inset-left));
+  padding-right:max(28px,env(safe-area-inset-right));
+}
+@media(max-width:650px){
+  .main-shell main,
+  .home-screen .main-shell main,
+  .settings-page{
+    padding-left:max(var(--page-gutter),env(safe-area-inset-left));
+    padding-right:max(var(--page-gutter),env(safe-area-inset-right));
+  }
+}
+
+/* Surfaces stay solid and quiet. Only the dock, composer and chat header
+   pills float over moving content, so only they earn blur. */
+.card,
+.focused-panel.card,
+.focused-panel.scripture-panel,
+.settings-card,
+.home-scripture{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius-card);
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+.focused-panel.card,
+.focused-panel.scripture-panel{
+  padding:var(--card-padding);
+}
+@media(max-width:650px){
+  .focused-panel.card,
+  .focused-panel.scripture-panel{
+    padding:var(--card-padding-mobile);
+  }
+}
+
+/* One type scale. Titles share size, weight and rhythm; body copy shares
+   measure and leading so screens feel like one product. */
+.focused-panel :is(h2,h3),
+.experience-card h2,
+.scripture-panel h2,
+#recommendation-title,
+.scripture-direction>h2{
+  font-size:var(--type-title);
+  line-height:1.35;
+  letter-spacing:-.3px;
+  font-weight:650;
+  color:var(--ink);
+  text-wrap:balance;
+}
+.focused-panel .card-description,
+.experience-card .card-description,
+.small-copy,
+.progress-explainer{
+  font-size:var(--type-body);
+  line-height:1.65;
+  color:var(--muted);
+}
+.eyebrow,
+.mini-label,
+.recommendation-label,
+.card-heading .eyebrow,
+.experience-card>.eyebrow,
+.scripture-panel>.eyebrow{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* One control language. Same height, radius and quiet selected state. */
+.button,
+.chip,
+.answer,
+.context-field select,
+.settings-row select{
+  min-height:var(--control-min);
+  border-radius:var(--radius-control);
+}
+.button{
+  font-size:15px;
+  font-weight:600;
+}
+.chip,
+.answer{
+  font-size:14px;
+  line-height:1.5;
+}
+.need-grid,
+.reflection-choices,
+.context-grid{
+  gap:10px;
+}
+.need-grid button,
+.reflection-choices button{
+  min-height:60px;
+  padding:12px 14px;
+  border-radius:var(--radius-control);
+  font-size:14px;
+  line-height:1.5;
+  box-shadow:none;
+}
+
+/* Icons stay neutral. Colourful section tiles competed with content. */
+.section-icon,
+.section-icon.lavender,
+.section-icon.sand,
+.section-icon.green,
+.section-icon.blue,
+.section-icon.peach,
+.sidebar .nav-item svg,
+.need-grid button span,
+.reflection-choices .steady-icon{
+  background:transparent;
+  color:var(--ui-icon);
+}
+.lavender,.sand,.green{background:transparent}
+
+/* Steady blue is reserved for genuinely meaningful accents: Scripture
+   references and the way into Scripture. Everything else stays neutral so
+   one blue line actually means something. */
+.verse-reference,
+.scripture-link,
+.scripture-details a,
+.scripture-response .reflection-reference,
+.core-path,
+.verse-number,
+.memory-passages .saved-passage-heading small,
+.moment-preview .verse-reference{
+  color:var(--brand-ink);
+}
+.screen-back,
+.settings-back,
+.text-link,
+.step-change,
+.step-leave,
+.history-entry::after,
+.passage-save-controls .text-link{
+  color:var(--muted);
+}
+@media(hover:hover){
+  .screen-back:hover,.settings-back:hover,.text-link:hover{color:var(--ink)}
+}
+
+/* Secondary rows stay quiet and aligned. One hairline, one rhythm. */
+.optional-write,
+.record-section,
+.feedback,
+.step-schedule,
+.context-more,
+.memory-section{
+  border-top:1px solid var(--line);
+}
+.optional-write summary,
+.record-overview>summary,
+.record-details>summary,
+.context-more summary,
+.moment-depth>summary{
+  min-height:var(--control-min);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:var(--muted);
+  font-size:14px;
+  font-weight:500;
+}
+#task-form{
+  background:var(--soft);
+  border-radius:var(--radius-control);
+  padding-inline:12px;
+}
+.task{
+  min-height:56px;
+  gap:12px;
+}
+.count-pill{
+  background:var(--soft);
+  color:var(--muted);
+  border-radius:8px;
+  font-size:12px;
+}
+.local-dot{background:var(--faint)}
+
+/* Home: solid neutral ground. */
+.home-screen .hub-heading{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:20px;
+}
+:root[data-theme=dark] .home-screen .hub-heading{
+  background:var(--bg);
+  border:none;
+}
+/* Ambience drifts in neutral light, never blue. */
+.amb-a>span{background:radial-gradient(closest-side,color-mix(in srgb,var(--muted) 22%,transparent),transparent)}
+.amb-b>span{background:radial-gradient(closest-side,color-mix(in srgb,var(--muted) 18%,transparent),transparent)}
+
+/* Foundation keeps its quiet scenery in neutral tones to match the page. */
+.foundation{
+  background:var(--surface);
+  border:1px solid var(--line);
+}
+.foundation .eyebrow{color:var(--muted)}
+.foundation .eyebrow span{color:var(--muted)}
+.foundation blockquote{color:var(--muted)}
+.verse{color:var(--muted)}
+.verse span{border-left-color:var(--line2);color:var(--muted)}
+.landscape{background:linear-gradient(110deg,transparent,rgba(0,0,0,.04))}
+.sun{background:var(--surface-3);box-shadow:0 0 48px 14px rgba(20,23,26,.08)}
+.hill-back{background:var(--scenery-1)}
+.hill-mid{background:var(--scenery-2)}
+.hill-front{background:var(--scenery-3)}
+.rock-back{background:var(--scenery-4)}
+.rock-front{background:linear-gradient(150deg,var(--scenery-5) 40%,var(--scenery-4) 41%)}
+.cross,.cross:before{background:var(--scenery-ink)}
+.landscape-caption{color:var(--muted)}
+:root[data-theme=dark] .foundation{background:var(--surface);border-color:var(--line)}
+:root[data-theme=dark] .sun{background:var(--surface-3);box-shadow:none}
+:root[data-theme=dark] .hill-back{background:var(--scenery-1)}
+:root[data-theme=dark] .hill-mid{background:var(--scenery-2)}
+:root[data-theme=dark] .hill-front{background:var(--scenery-3)}
+:root[data-theme=dark] .rock-back{background:var(--scenery-4)}
+:root[data-theme=dark] .rock-front{background:linear-gradient(150deg,var(--scenery-5) 40%,var(--scenery-4) 41%)}
+:root[data-theme=dark] .cross,:root[data-theme=dark] .cross:before{background:var(--scenery-ink)}
+
+/* Burden keeps every beat — helper, identity, Scripture Help, explanation,
+   topics, input, helper selection, Memory — with a calmer hierarchy.
+   The tile goes neutral so the donkey, not a blue panel, carries identity. */
+.chat-welcome{
+  gap:12px;
+  margin:0 0 20px;
+}
+.chat-welcome .donkey-guide{
+  background:linear-gradient(145deg,var(--tile-from),var(--tile-to));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+.chat-welcome .donkey-guide[data-load="carrying"],
+.chat-welcome .donkey-guide[data-load="lighter"],
+.donkey-guide[data-expression="concerned"],
+.donkey-guide[data-expression="encouraged"],
+.donkey-guide[data-expression="happy"],
+.donkey-guide[data-expression="relieved"],
+.donkey-guide[data-expression="searching"],
+.donkey-guide[data-expression="matching"],
+.donkey-guide[data-expression="focused"]{
+  background:linear-gradient(145deg,var(--tile-from),var(--tile-to));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8),var(--shadow);
+}
+:root[data-theme=dark] .donkey-guide,
+:root[data-theme=dark] .donkey-guide[data-expression="concerned"],
+:root[data-theme=dark] .donkey-guide[data-expression="encouraged"],
+:root[data-theme=dark] .donkey-guide[data-expression="happy"],
+:root[data-theme=dark] .donkey-guide[data-expression="relieved"],
+:root[data-theme=dark] .donkey-guide[data-expression="searching"],
+:root[data-theme=dark] .donkey-guide[data-expression="matching"],
+:root[data-theme=dark] .donkey-guide[data-load="carrying"],
+:root[data-theme=dark] .donkey-guide[data-load="lighter"]{
+  background:linear-gradient(145deg,var(--tile-from),var(--tile-to));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
+}
+/* The portrait PNGs have real transparency. The welcome tile's rectangular
+   gradient was showing above the ears, so let the animal sit on the page. */
+.chat-welcome .donkey-guide,
+.chat-welcome .donkey-guide[data-load="carrying"],
+.chat-welcome .donkey-guide[data-load="lighter"],
+.chat-welcome .donkey-guide[data-expression],
+:root[data-theme=dark] .chat-welcome .donkey-guide,
+:root[data-theme=dark] .chat-welcome .donkey-guide[data-load],
+:root[data-theme=dark] .chat-welcome .donkey-guide[data-expression]{
+  background:none;
+  box-shadow:none;
+}
+.donkey-signature strong{
+  font-size:20px;
+  letter-spacing:-.2px;
+}
+.donkey-signature span{
+  font-size:10px;
+  letter-spacing:.12em;
+  color:var(--muted);
+}
+.chat-welcome .chat-method{
+  font-size:13px;
+  line-height:1.6;
+  color:var(--muted);
+}
+.chat-welcome .wheel-open{border:0;color:var(--muted);background:transparent}
+.assistant-bubble{
+  background:var(--soft);
+  color:var(--ink);
+}
+.chat-bubble,
+.moment-response,
+.moment-preview{
+  font-size:14px;
+  line-height:1.65;
+}
+.moment-preview{
+  background:color-mix(in srgb,var(--soft) 72%,var(--surface));
+  border:1px solid var(--line);
+  border-radius:16px;
+}
+.moment-next-step{
+  border-left:2px solid var(--line2);
+}
+.moment-next-step .moment-step-title{color:var(--ink)}
+.moment-preview blockquote{color:var(--ink)}
+.moment-depth>summary{color:var(--muted)}
+.thinking-drop{background:var(--muted)}
+.speech-word.spoken{background:var(--soft);color:var(--ink)}
+.chat-suggestions button{
+  border:1px solid var(--line);
+  color:var(--ink);
+  background:color-mix(in srgb,var(--surface) 70%,transparent);
+  border-radius:22px;
+}
+
+/* Dock selection and floating pills use the same neutral glass. */
+.dock-selection{
+  background:var(--surface);
+  box-shadow:var(--shadow);
+}
+:root[data-theme=dark] .dock-selection{background:var(--surface-4);box-shadow:none}
+
+/* Dark uniformity: flat OLED near-black, zero texture. The ambience
+   light-play, coastal artwork, foundation scenery and lettering grain are
+   decorative layers, so they stay out of the dark theme entirely. Depth
+   comes from spacing, hairlines and restrained glass only. Layout, copy
+   and hierarchy are untouched — only the noise is gone. */
+:root[data-theme=dark] .ambience{display:none}
+:root[data-theme=dark] body.home-screen,:root[data-theme=dark] .home-screen .main-shell,:root[data-theme=dark] .home-screen .hub-heading,:root[data-theme=dark] .home-screen .home-scripture{background:var(--bg);background-image:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+:root[data-theme=dark] .home-screen .hub-heading{background:var(--bg);border:none}
+:root[data-theme=dark] .landscape{display:none}
+:root[data-theme=dark] .brand-wordmark{background:none;-webkit-text-fill-color:currentColor;color:var(--ink);filter:none}
+
+/* Dark sidebar: match the page, which is already the same near-black. The
+   background is the body's own colour, so this adds nothing visible on the
+   screens where the sidebar is a strip in flow.
+   It must NOT be forced. On the screens where the sidebar becomes a floating
+   row of controls over the page, an opaque background paints a black plate
+   straight across the heading it is sharing a row with, and the title
+   disappears on a true-black page. Those rules are more specific, so leaving
+   the priority off is what lets them stay transparent. */
+:root[data-theme=dark] .sidebar{background:var(--bg)}
+
+/* Grain suppression: the wordmark stone texture is a decorative layer.
+   Branding.css already strips it; this rule wins any remaining specificity
+   battle and keeps the wordmark flat on dark surfaces. */
+:root[data-theme=dark] .brand-wordmark,
+:root[data-theme=dark] .sidebar .brand .brand-wordmark{
+  background:none;
+  background-image:none;
+  -webkit-background-clip:unset;
+  background-clip:unset;
+  -webkit-text-fill-color:currentColor;
+  color:var(--ink);
+  filter:none;
+}
+
+/* Contrast: elevate interactive text that sits on the darkest surfaces.
+   Inactive nav labels and eyebrows are readable; active state and chip
+   borders need a firmer edge so focus, selection and hierarchy read clearly
+   without adding colour. */
+:root[data-theme=dark] .sidebar .nav-item.active .nav-label{color:var(--ink);font-weight:700}
+:root[data-theme=dark] .need-grid button,
+:root[data-theme=dark] .reflection-choices button{border-color:var(--line2)}
+:root[data-theme=dark] .card{border-color:var(--line2)}
+:root[data-theme=dark] .home-screen .hub-heading .hub-description{color:var(--text)}
+
+/* UI stabilization polish — one coherent production language.
+   No navigation, behaviour, content or feature changes. This only unifies
+   the tokens the earlier layers defined twice so every screen reads as one
+   product: black/white surfaces, Steady blue reserved for Scripture, neutral
+   hairlines, one radius scale, one type scale, glass only where it floats. */
+
+/* One gutter, one column. visual-polish set 18px; the canonical gutter is 20px. */
+:root{--page-gutter:20px}
+
+/* One card language. Hub, panels and settings share radius and hairline so a
+   screen never shows 18px beside 20px for the same job. */
+.home-screen .hub-heading{border-radius:var(--radius-card)}
+.settings-card{border-radius:var(--radius-card)}
+
+/* One small-badge language. 6–8px labels were too small to read and too many
+   radii for one job; 8px radius with a 12px label reads without shouting. */
+.count-pill{border-radius:8px;font-size:12px}
+
+/* Supporting copy stays readable. 8px faint footers failed contrast and drew
+   attention by being tiny rather than quiet; muted at 12–13px is calm and legible. */
+.field-footer,.reflection-bottom,.action-footer{font-size:12px;line-height:1.6;color:var(--muted)}
+.gentle-note span,.verse{font-size:11px;line-height:1.5}
+
+/* One eyebrow. 8–10px labels with wide tracking felt cheap beside 11px ones. */
+.recommendation-label{font-size:11px;letter-spacing:.12em}
+
+/* Selected means selected, once. Chips, answers and grid choices share the
+   solid fill; the reading preview keeps its soft tint so action and reading
+   never compete. */
+:root body .moment-preview{background:color-mix(in srgb,var(--soft) 72%,var(--surface))}
+
+/* Neutral stays neutral. These used the legacy --gold/--forest aliases, which
+   resolve to muted/solid today; stating the neutral token keeps them quiet if
+   the aliases ever point at real hues. Scripture keeps the only blue. */
+.history-entry::after{color:var(--muted)}
+.direction-setup{border-left-color:var(--line2)}
+.moment-preview>.moment-practice{border-left-color:var(--line2)}
+.moment-next-step{border-left-color:var(--line2)}
+.moment-next-step .moment-step-title{color:var(--ink)}
+.moment-depth>summary{color:var(--muted)}
+.selected-verse{background:var(--soft);border-left-color:var(--line2)}
+.scripture-panel .eyebrow{color:var(--muted)}
+.thinking-drop{background:var(--muted)}
+.speech-word.spoken{background:var(--soft)}
+.screen-back,.settings-back{color:var(--muted)}
+@media(hover:hover){.saved-passage-card:hover{border-color:var(--line2)}}
+
+/* One nested-panel radius. 14px confirms and 10px backup fields were one-off
+   sizes between the 12px control and 18px card steps. */
+.memory-confirm{border-radius:var(--radius-control)}
+.entry-tools .backup-copy{border-radius:var(--radius-control);font-size:13px;line-height:1.6}
+
+/* One record language. The overview totals were flat text beside padded tiles;
+   both now share the same quiet tile so progress reads the same everywhere. */
+.record-overview .progress-totals>div{padding:18px;background:var(--soft);border-radius:12px}
+.record-overview .progress-totals strong{font-size:30px;font-weight:500}
+.day-record>.record-date{font-size:22px}
+.history-entry{min-height:60px}
+
+/* Wordmark stays flat ink in both appearances. The stone grain is decorative
+   texture on a calm page; flat lettering is the premium, native reading. */
+body .brand-wordmark,.sidebar .brand .brand-wordmark{background:none;background-image:none;-webkit-background-clip:unset;background-clip:unset;-webkit-text-fill-color:currentColor;color:var(--ink);filter:none;text-shadow:none}
+
+/* Glass restraint, restated once. Only the dock, composer and chat pills float
+   over moving content, so only they blur. Everything else is solid surface
+   with the same hairline, in both appearances. */
+.card,.focused-panel.card,.focused-panel.scripture-panel,.settings-card,.home-scripture,.home-screen .hub-heading,.moment-preview,.memory-confirm,.progress-totals>div,.record-overview .progress-totals>div{backdrop-filter:none;-webkit-backdrop-filter:none}
+
+/* The native TabView removes the browser dock from the shared clearance calculation. */
+html[data-native-tabs=true]{--navigation-space:0px;--chat-dock-space:0px}
+
+/* Shared accessibility finish across the daily, reading, record and settings
+   routes. Secondary information should be quiet without becoming tiny. */
+:root body .settings-row p,:root body .settings-group>p,
+:root body .chat-welcome .chat-method,:root body .chat-welcome .wheel-open,
+:root body .step-feedback .small-copy,
+.field-footer,.reflection-bottom,.action-footer,
+.gentle-note span,.verse{font-size:max(13px, .875rem);line-height:1.55}
+.chat-welcome .wheel-open{min-height:44px;padding:0}
+.settings-page .privacy-choice{min-height:48px}
+.settings-page .privacy-choice input:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+:is(.text-link,.step-change,.scripture-link,.saved-passage-card):focus-visible,
+:is(.chip,.answer,.need-grid button,.reflection-choices button):focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px
+}
+@media(forced-colors:active){
+  :is(.chip,.answer,.need-grid button,.reflection-choices button)[aria-pressed=true]{
+    outline:2px solid Highlight;outline-offset:-3px
+  }
+  .settings-page .privacy-choice input{border:1px solid ButtonText}
+  .settings-page .privacy-choice input:checked{background:Highlight}
+}

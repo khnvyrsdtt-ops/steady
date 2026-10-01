@@ -1,0 +1,27 @@
+/* Out of normal flow and invisible to hit testing; foreground geometry stays
+   identical with the optional background enabled or disabled. */
+html body .feelings-panel > .rainbow-rain{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}
+html body .feelings-panel > .rainbow-rain[hidden]{display:none!important}
+html body .feelings-panel > .rainbow-rain:not([hidden]) ~ #feelings-form{position:relative;z-index:1}
+/* A hold on the empty backdrop is for water, not a text-selection gesture.
+   Actual conversation content retains the system's copy/select behaviour. */
+html[data-rainbow-rain=on] body.chat-screen .chat-scroll{
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}
+html[data-rainbow-rain=on] body.chat-screen :is(.chat-bubble,.chat-chapter,.chat-actions,.chat-inline-prompt p,input,textarea){
+  user-select:text;
+  -webkit-user-select:text;
+  -webkit-touch-callout:default;
+}

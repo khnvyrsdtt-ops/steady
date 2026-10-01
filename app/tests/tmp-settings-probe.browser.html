@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Settings title geometry</title>
+<style>body{font:13px/1.5 system-ui;margin:16px}iframe{width:390px;height:844px;border:1px solid #999}</style>
+<h1>Settings title geometry</h1>
+<button id="run">Measure</button>
+<pre id="out">Ready</pre>
+<iframe id="app" title="Steady at iPhone width"></iframe>
+<script>
+'use strict';
+const frame = document.querySelector('#app');
+const out = document.querySelector('#out');
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const settle = () => wait(200);
+
+document.querySelector('#run').addEventListener('click', async () => {
+  await new Promise(r => { frame.onload = r; frame.src = '../public/index.html?probe=' + Date.now() + '#home'; });
+  const win = frame.contentWindow, doc = win.document;
+  try { await Promise.race([doc.fonts.ready, wait(2000)]); } catch (e) {}
+  const root = doc.documentElement, cs = getComputedStyle;
+  const scroller = doc.querySelector('.app-content');
+  const title = doc.querySelector('#settings-title');
+  const heading = doc.querySelector('.settings-heading');
+  const back = doc.querySelector('.settings-back');
+  const sidebar = doc.querySelector('.sidebar');
+  const nav = doc.querySelector('.sidebar nav');
+  const rows = [];
+
+  // The real device publishes the insets after the document has laid out.
+  root.style.setProperty('--steady-safe-top', '59px');
+  root.style.setProperty('--steady-safe-bottom', '34px');
+  win.location.hash = '#settings';
+  await settle();
+  win.dispatchEvent(new win.Event('resize'));
+  await settle();
+  scroller.scrollTop = 0;
+  await settle();
+
+  const rect = el => { const b = el.getBoundingClientRect();
+    return {top:+b.top.toFixed(1), bottom:+b.bottom.toFixed(1), left:+b.left.toFixed(1), right:+b.right.toFixed(1), height:+b.height.toFixed(1)}; };
+
+  rows.push({
+    what: 'as-laid-out (no scroll)',
+    safeTop: cs(root).getPropertyValue('--steady-safe-top').trim(),
+    heading: rect(heading),
+    headingPadTop: cs(heading).paddingTop,
+    headingMinHeight: cs(heading).minHeight,
+    headingOverflow: cs(heading).overflow,
+    title: rect(title),
+    titleClearsSafeTop: +(title.getBoundingClientRect().top - 59).toFixed(1),
+    titleTextIsClipped: title.getBoundingClientRect().top < 59,
+    back: rect(back),
+    sidebar: {pos: cs(sidebar).position, rect: rect(sidebar), z: cs(sidebar).zIndex},
+    nav: rect(nav)
+  });
+
+  // Now the same screen with the heading's own box, to see whether the title
+  // overflows a clipped ancestor rather than merely sitting too high.
+  const clipped = [];
+  let node = title;
+  while (node && node !== doc.documentElement) {
+    const st = cs(node);
+    if (st.overflow !== 'visible' || st.overflowY !== 'visible') {
+      clipped.push({sel: node.className || node.tagName, overflow: st.overflow, overflowY: st.overflowY,
+                    rect: rect(node)});
+    }
+    node = node.parentElement;
+  }
+  rows.push({ what: 'clipped ancestors of the title', clipped });
+
+  // Scroll the screen: does the title go under the fixed sidebar/nav?
+  scroller.scrollTop = 40;
+  await settle();
+  rows.push({ what: 'scrolled 40px', title: rect(title), sidebarRect: rect(sidebar), nav: rect(nav),
+              titleUnderSidebar: title.getBoundingClientRect().top < sidebar.getBoundingClientRect().bottom });
+
+  const report = { rows };
+  out.textContent = JSON.stringify(report, null, 1);
+  window.__report = report;
+});
+</script>
+</html>
