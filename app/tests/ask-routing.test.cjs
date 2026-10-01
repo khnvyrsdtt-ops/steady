@@ -68,3 +68,17 @@ test('spelled-out and visually disguised citations stay in library lookup and ca
     assert.equal(Routing.validGeneralAnswer(text),text,text);
   }
 });
+
+test('everyday words and first names followed by numbers stay in the general conversation',()=>{
+  const bible=Bible,study=Study;
+  for(const text of ['I work my job 3 days a week and I am exhausted. How do I rest?','Can you mark 2 things for me to do today?',
+    'Help me plan Acts 1 and 2 of my school play','My ex 2 years later still texts me','A text from John 2 hours ago upset me']){
+    assert.equal(Routing.resolve(text,{bible,study}).scripture,false,text);
+  }
+  for(const [text,reference] of [['What is Psalm 23 about?','Psalm 23'],['Read Mark 5','Mark 5'],['What is John 3 about?','John 3'],
+    ['The storm in Mark 4','Mark 4'],['Job 3','Job 3'],['1 John 4','1 John 4'],['What does James 1 say?','James 1']]){
+    assert.equal(Routing.resolve(text,{bible,study}).study?.query,reference,text);
+  }
+  for(const text of ['Your job 3 days a week leaves little room.','Mark 5 items as done.','Call John 2 hours before.'])assert.ok(Routing.validGeneralAnswer(text),text);
+  for(const text of ['Try 1 Cor. 13.','Look at Ps 23.','In Mark 4, a storm is calmed.','See 1 John 4.'])assert.equal(Routing.validGeneralAnswer(text),null,text);
+});

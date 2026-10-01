@@ -77,7 +77,22 @@ const SteadyAskRouting = (() => {
   }
 
   const bookNames='Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|Samuel|Kings|Chronicles|Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|Song of (?:Solomon|Songs)|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|Corinthians|Galatians|Ephesians|Philippians|Colossians|Thessalonians|Timothy|Titus|Philemon|Hebrews|James|Peter|Jude|Revelation|Gen|Exod?|Lev|Deut|Josh|Judg|Sam|Kgs|Chr|Neh|Esth|Ps|Prov|Eccl|Isa|Jer|Ezek|Dan|Hos|Obad|Jon|Mic|Nah|Hab|Zeph|Hag|Zech|Mal|Matt?|Mrk|Luk|Jn|Jhn|Rom|Cor|Gal|Eph|Phil|Col|Thess?|Tim|Phlm|Heb|Jas|Pet|Rev';
-  const citation=new RegExp('\\b(?:(?:[123]|first|second|third)\\s*)?(?:'+bookNames+')\\.?\\s*\\d{1,3}(?:\\s*:\\s*\\d{1,3})?\\b','i');
+  // Chapter:verse always counts. A bare number counts after a distinctive
+  // book name, but names that are also everyday words or first names ("my
+  // job 3 days a week", "John 2 years ago") need a reading cue or a
+  // numbered-book prefix. Kept in step with BurdenScriptureBoundary in Swift.
+  const ordinal='(?:[1-3]|first|second|third)\\s*';
+  const distinctBooks='(?:gen(?:esis)?|exod(?:us)?|lev(?:iticus)?|deut(?:eronomy)?|chr(?:on(?:icles)?)?|neh(?:emiah)?|ps(?:alms?)?|prov(?:erbs)?|eccl(?:esiastes)?|song of (?:solomon|songs)|isa(?:iah)?|jer(?:emiah)?|lamentations|ezek(?:iel)?|obad(?:iah)?|hab(?:akkuk)?|zeph(?:aniah)?|hag(?:gai)?|zech(?:ariah)?|rom(?:ans)?|cor(?:inthians)?|gal(?:atians)?|eph(?:esians)?|philippians|colossians|thess?(?:alonians)?|heb(?:rews)?|philem(?:on)?|phlm|revelation)';
+  const everydayCitationBooks='(?:ex|num(?:bers)?|josh(?:ua)?|judg(?:es)?|ruth|sam(?:uel)?|k(?:in)?gs|ezra|esth(?:er)?|job|lam|dan(?:iel)?|hos(?:ea)?|joel|amos|jonah|mic(?:ah)?|nah(?:um)?|mal(?:achi)?|matt?(?:hew)?|mk|mrk|mark|lk|luk|luke|jn|jhn|john|acts|phil|col|tim(?:othy)?|titus|jas|james|pet(?:er)?|jude|rev)';
+  const numberedBooks='(?:sam(?:uel)?|k(?:in)?gs|jn|jhn|john|tim(?:othy)?|pet(?:er)?)';
+  const readingCue='(?:read|try|study|open|look at|turn to|according to|in|book of)\\s+';
+  const citationPatterns=[
+    new RegExp('\\b(?:'+ordinal+')?(?:'+bookNames+')\\.?\\s*\\d{1,3}\\s*:\\s*\\d{1,3}\\b','i'),
+    new RegExp('\\b(?:'+ordinal+')?'+distinctBooks+'\\.?\\s+\\d','i'),
+    new RegExp('\\b'+readingCue+'(?:'+ordinal+')?'+everydayCitationBooks+'\\.?\\s+\\d','i'),
+    new RegExp('\\b'+ordinal+numberedBooks+'\\.?\\s+\\d','i')
+  ];
+  const citation={test:text=>citationPatterns.some(pattern=>pattern.test(text))};
   const numberWord='(?:\\d{1,3}|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)';
   const proseCitation=new RegExp('\\b(?:(?:[123]|first|second|third)\\s*)?(?:'+bookNames+')\\.?\\s+(?:(?:chapter|verse)\\s+'+numberWord+'|'+numberWord+'(?:[ -]'+numberWord+')?\\s*,?\\s+verse\\s+'+numberWord+')\\b','i');
   // Normalize only for boundary checks; preserve the user's and model's actual

@@ -198,7 +198,7 @@ enum BurdenScriptureBoundary {
         let everyday = #"(?:ex|num(?:bers)?|josh(?:ua)?|judg(?:es)?|ruth|sam(?:uel)?|k(?:in)?gs|ezra|esth(?:er)?|job|lam|dan(?:iel)?|hos(?:ea)?|joel|amos|jonah|mic(?:ah)?|nah(?:um)?|mal(?:achi)?|matt?(?:hew)?|mk|mrk|mark|lk|luk|luke|jn|jhn|john|acts|phil|col|tim(?:othy)?|titus|jas|james|pet(?:er)?|jude|rev)"#
         let numbered = #"(?:sam(?:uel)?|k(?:in)?gs|jn|jhn|john|tim(?:othy)?|pet(?:er)?)"#
         let ordinal = #"(?:[1-3]|first|second|third)\s*"#
-        let cue = #"(?:read|see|try|study|open|look at|turn to|according to|in|from|book of)\s+"#
+        let cue = #"(?:read|try|study|open|look at|turn to|according to|in|book of)\s+"#
         let patterns = [
             #"\b(?:"# + ordinal + #")?"# + distinct + #"\.?\s+\d"#,
             #"\b"# + cue + #"(?:"# + ordinal + #")?"# + everyday + #"\.?\s+\d"#,

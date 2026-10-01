@@ -28,15 +28,24 @@
   // such as "What does John 3:16 mean?". Bounds are checked by getPassage.
   const aliasPattern=[...aliases.keys()].sort((a,b)=>b.length-a.length).map(alias=>alias.split('').join('\\s*')).join('|');
   const referencePattern=new RegExp('\\b('+aliasPattern+')\\.?\\s*(\\d{1,4})(?:\\s*:\\s*(\\d{1,4})(?:\\s*[-–—]\\s*(?:(\\d{1,4})\\s*:\\s*)?(\\d{1,4}))?)?(?:\\s*[-–—]\\s*(\\d{1,4}))?','ig');
-  const ordinaryWordAliases=new Set(['am','is','he','job','mark','numbers','acts','song','songs']);
+  const ordinaryWordAliases=new Set(['am','is','he','job','mark','numbers','acts','song','songs',
+    // First names and everyday words: "my friend John 2 years ago", "my ex 2 years later", "CO 2".
+    'john','jn','luke','james','jam','jude','ruth','joel','amos','daniel','dan','esther','est','ezra','joshua','titus','tit','ti',
+    'matthew','mat','ex','act','ac','pro','pr','re','rev','co','col','mal','mic','nah','na','hos','ho','phil','lam','la','ne','nu','da','ga','ro','jon']);
   function referenceMatches(query){
     return [...query.matchAll(referencePattern)].filter(match=>{
       // Short aliases and book names can also be everyday words. "I am 2
       // weeks behind" is not a request to read Amos. Explicit verses, bare
       // references and clearly requested chapters remain available.
-      if(match[3]!==undefined||!ordinaryWordAliases.has(aliasKey(match[1])))return true;
+      if(match[3]!==undefined||match[6]!==undefined||!ordinaryWordAliases.has(aliasKey(match[1])))return true;
       const before=query.slice(0,match.index).trim(),after=query.slice(match.index+match[0].length).trim();
-      return !before&&/^[?!.]*$/.test(after)||/\b(?:read|explain|context(?: of)?|chapter|book|verse|about|does)\s*$/i.test(before)||/\b(?:mean|context)\b/i.test(after);
+      // "John 3-4", "John 3 verse 16" and "John 3:" are still references,
+      // so a malformed one reports its error instead of becoming a search.
+      if(/^(?::|[-–—]|[,;.&+/]\s*(?:\d|vv?\b|verses?\b)|(?:vv?\.?|verses?)\s*\d)/i.test(after))return true;
+      // A second reference in a list ("Psalm 23; John 3") still counts, so the
+      // reader is asked for one reference rather than shown only the first.
+      if(/\d\s*(?:[;,&/]|and)\s*$/i.test(before))return true;
+      return !before&&/^[?!.]*$/.test(after)||/\b(?:read|explain|summari[sz]e|study|open|turn to|look at|in|context(?: of)?|chapter|book|verse|about|does)\s*$/i.test(before)||/^(?:about|say|says|mean)\b|\b(?:mean|context)\b/i.test(after);
     });
   }
   let nodeData;
